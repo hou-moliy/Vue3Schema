@@ -1,35 +1,107 @@
 # vue3-cli-ts(vue+ts 打造企业级组件库学习)
 
-## Project setup
+## 2
 
+### 2-5
+
+#### h 函数
+
+```js
+import { createApp, defineComponent, h } from "vue";
+// import App from "./App.vue";
+import router from "./router";
+import HelloWorld from "./components/HelloWorld.vue";
+const App = defineComponent({
+  render() {
+    return h("div", { id: "app" }, [
+      h("img", {
+        alt: "Vue logo",
+        src: "https://vuejs.org/images/logo.png",
+      }),
+      h(HelloWorld, { msg: "Hello Vue 3 + TypeScript + Vite", age: 18 }),
+    ]);
+  },
+});
+createApp(App).use(router).mount("#app");
+
+/**
+ * h(标签名，标签属性，标签内的子标签（多个就是[],文字就是""）)
+ */
 ```
-npm install
+
+### 2-6\7
+
+#### setup 的运用和其意义
+
+##### setup 返回 render 函数的用法
+
+```js
+import { createApp, defineComponent, h, reactive, ref } from "vue";
+// import App from "./App.vue";
+import router from "./router";
+import HelloWorld from "./components/HelloWorld.vue";
+const App = defineComponent({
+  setup() {
+    const state = reactive({
+      name: "hy",
+      age: 20,
+    });
+    setInterval(() => {
+      state.age++;
+      state.name = "hy" + state.age;
+      numberRef.value += 1;
+    }, 1000);
+    const numberRef = ref(1);
+
+    // const number = numberRef.value; // 这样做number的值永远都是1，不会更新，因为setup只会执行一次，值的改变不会触发setup的再次执行，但是会触发render的执行，所以需要放到下面
+    return () => {
+      const number = numberRef.value;
+      return h("div", { id: "app" }, [
+        h("img", {
+          alt: "Vue logo",
+          src: "https://vuejs.org/images/logo.png",
+        }),
+        h(HelloWorld, { msg: state.name, age: state.age }),
+        h("p", number),
+      ]);
+    };
+  },
+});
+createApp(App).use(router).mount("#app");
 ```
 
-### Compiles and hot-reloads for development
+### 2-8
 
+#### JSX
+
+##### [vue3.0 使用 jsx 就用 babel-plugin-jsx](https://github.com/vuejs/babel-plugin-jsx/blob/main/packages/babel-plugin-jsx/README-zh_CN.md)
+
+```js
+import { defineComponent, reactive } from "vue";
+import HelloWorld from "./components/HelloWorld.vue";
+
+export default defineComponent({
+  setup() {
+    const state = reactive({
+      name: "hy",
+      age: 20,
+    });
+    // setInterval(() => {
+    //   state.age++;
+    //   state.name = "hy" + state.age;
+    // }, 1000);
+    const renderHelloWorld = (msg: string, age: number) => {
+      return <HelloWorld msg={msg} age={age} />;
+    };
+    return () => {
+      return (
+        <div id="app">
+          <input type="text" v-model={state.name} />
+          <img alt="Vue logo" src="https://vuejs.org/images/logo.png" />
+          {renderHelloWorld(state.name, state.age)}
+        </div>
+      );
+    };
+  },
+});
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Run your unit tests
-
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
