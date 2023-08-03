@@ -105,3 +105,27 @@ export default defineComponent({
   },
 });
 ```
+
+## 3
+
+### 3-1
+
+#### 什么是 json schema
+
+- json 数据
+- 校验数据
+
+#### 如何使用 ajv 来定义和校验 jsonSchema
+
+[ajv-v6^](https://ajv.js.org/guide/getting-started.html)
+[jsonSchema-v4^](http://json-schema.org/obsolete-implementations)
+[自定义 format(ajv 库支持的)](https://github.com/ajv-validator/ajv/blob/master/docs/api.md#api-addformat)
+示例代码
+
+```js
+// 参考schema - tests文件夹下的test.js文件;
+```
+
+#### 如何自定义关键字
+
+[自定义关键字](https://ajv.js.org/keywords.html)
