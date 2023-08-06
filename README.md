@@ -117,10 +117,10 @@ export default defineComponent({
 
 #### 如何使用 ajv 来定义和校验 jsonSchema
 
-[ajv-v6^](https://ajv.js.org/guide/getting-started.html)
-[jsonSchema-v4^](http://json-schema.org/obsolete-implementations)
-[自定义 format(ajv 库支持的)](https://github.com/ajv-validator/ajv/blob/master/docs/api.md#api-addformat)
-示例代码
+- [ajv-v6^](https://ajv.js.org/guide/getting-started.html)
+- [jsonSchema-v4^](http://json-schema.org/obsolete-implementations)
+- [自定义 format(ajv 库支持的)](https://github.com/ajv-validator/ajv/blob/master/docs/api.md#api-addformat)
+  示例代码
 
 ```js
 // 参考schema - tests文件夹下的test.js文件;
@@ -129,3 +129,12 @@ export default defineComponent({
 #### 如何自定义关键字
 
 [自定义关键字](https://ajv.js.org/keywords.html)
+
+#### 如何转换错误语言，自定义关键字如何定义错误信息
+
+- [转换错误语言只支持原生的关键字，不支持自定义关键字]()
+- 自定义关键字如何定义错误信息
+
+#### 如何自定义错误信息
+
+- [自定义错误信息只支持原生的关键字，不支持自定义关键字](https://github.com/ajv-validator/ajv-errors)
