@@ -132,9 +132,10 @@ export default defineComponent({
 
 #### 如何转换错误语言，自定义关键字如何定义错误信息
 
-- [转换错误语言只支持原生的关键字，不支持自定义关键字]()
+- [转换错误语言只支持原生的关键字，不支持自定义关键字](https://ajv.js.org/packages/ajv-i18n.html)
 - 自定义关键字如何定义错误信息
 
 #### 如何自定义错误信息
 
 - [自定义错误信息只支持原生的关键字，不支持自定义关键字](https://github.com/ajv-validator/ajv-errors)
+- **ajv-errors 在 json-schema 中自定义错误只 返回'应当通过 "errorMessage 关键词校验"** 是因为 ajv-errors 和 ajv-i18n 两个之间冲突了

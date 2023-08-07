@@ -10,17 +10,25 @@ ajv.addFormat("isLaLa", (data) => {
   return data === "lala";
 });
 // 自定义关键字
+ajv.addKeyword({
+  keyword: "range",
+  validate: function fun(schema, data) {
+    console.log(schema, data); // schema:是关键字后面的值，data:是要校验的值
+    fun.errors = [
+      {
+        keyword: "range",
+        message: `值必须在[${schema}]之间`,
+        params: { keyword: "range" },
+      },
+    ];
+    return data > schema[0] && data < schema[1];
+  },
+});
 // ajv.addKeyword({
 //   keyword: "range",
-//   validate: function fun(schema, data) {
-//     console.log(schema, data);
-//     // return data > schema[0] && data < schema[1];
-//     // function.errors = [
-//     //   {
-
-//     //   }
-//     // ]
-//     return false;
+//   validate: (schema, data) => {
+//     // schema:是关键字后面的值，data:是要校验的值
+//     return data >= schema[0] && data <= schema[1];
 //   },
 // });
 const schema = {
@@ -42,7 +50,7 @@ const schema = {
     isWorker: { type: "boolean" },
     email: { type: "string", format: "email" },
     name: { type: "string", format: "isLaLa" },
-    // ages: { type: "range", format: "[0,2]" },
+    ageRange: { type: "number", range: [1, 10] },
   },
   required: ["foo"],
   additionalProperties: false,
@@ -59,12 +67,12 @@ const validate = ajv.compile(schema);
 
 const data = {
   foo: 1,
-  age: 1,
+  age: 2,
   pets: ["mini", "mimi"],
   isWorker: true,
   email: "1337312569@qq.com",
   name: "lala",
-  // ages: 1,
+  ageRange: 0,
 };
 
 const valid = validate(data);
