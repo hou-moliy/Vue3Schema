@@ -68,7 +68,7 @@ const useStyles = createUseStyles({
   },
 });
 
-interface dataType {
+interface DataType {
   schema: Schema | null;
   data: any;
   uiSchema: UISchema | null;
@@ -81,7 +81,7 @@ export default defineComponent({
   setup() {
     const selectedRef: Ref<number> = ref(0);
 
-    const demo: dataType = reactive({
+    const demo: DataType = reactive({
       schema: null,
       data: {},
       uiSchema: {},
