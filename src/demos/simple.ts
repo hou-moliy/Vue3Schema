@@ -3,7 +3,7 @@ export default {
   schema: {
     // 设置展示组件
     description: "A simple form example.",
-    type: "string",
+    type: "number",
     required: ["firstName", "lastName"],
     properties: {
       firstName: {
