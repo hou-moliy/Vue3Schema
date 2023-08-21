@@ -2,7 +2,7 @@
   <input type="text" @input="handleChange" />
 </template>
 <script lang="ts" setup>
-import { ref, PropType } from "vue";
+import { ref } from "vue";
 import { Schema, FiledPropsDefine } from "../types";
 const props = defineProps(FiledPropsDefine);
 const handleChange = (e: any) => {
