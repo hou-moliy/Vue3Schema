@@ -207,3 +207,285 @@ export interface UISchema extends VueJsonSchemaConfig {
   };
 }
 ```
+
+## 5
+
+### 5-1 utils.ts+type.ts 的定义
+
+其中使用了以下几个插件 jsonpointer，lodash.union，json-schema-merge-allof
+
+#### [jsonpointer](https://www.npmjs.com/package/jsonpointer)
+
+```ts
+import jsonpointer from "jsonpointer";
+var obj = { foo: 1, bar: { baz: 2 }, qux: [3, 4, 5] };
+
+jsonpointer.get(obj, "/foo"); // returns 1
+jsonpointer.get(obj, "/bar/baz"); // returns 2
+jsonpointer.get(obj, "/qux/0"); // returns 3
+jsonpointer.get(obj, "/qux/1"); // returns 4
+jsonpointer.get(obj, "/qux/2"); // returns 5
+jsonpointer.get(obj, "/quo"); // returns undefined
+
+jsonpointer.set(obj, "/foo", 6); // sets obj.foo = 6;
+jsonpointer.set(obj, "/qux/-", 6); // sets obj.qux = [3, 4, 5, 6]
+
+var pointer = jsonpointer.compile("/foo");
+pointer.get(obj); // returns 1
+pointer.set(obj, 1); // sets obj.foo = 1
+```
+
+#### [lodash.union](https://www.lodashjs.com/docs/lodash.union/)
+
+```ts
+import union from "lodash.union";
+// 创建一个按顺序排列的唯一值的数组。所有给定数组的元素值使用SameValueZero做等值比较。（注： arrays（数组）的并集，按顺序返回，返回数组的元素是唯一的)
+// 合并时不要包含重复的值
+union([2], [1, 2]);
+// => [2, 1]
+```
+
+#### [json-schema-merge-allof](https://github.com/techiedarren/json-schema-merge-allof/tree/master)
+
+参考文章：
+[1](https://blog.csdn.net/weixin_42534940/article/details/103615260)
+[2](https://json-schema.org/understanding-json-schema/reference/combining.html)
+
+The keywords used to combine schemas are:
+
+- allOf: Must be valid against all of the subschemas (校验对象要满足所有子 schema)
+- anyOf: Must be valid against any of the subschemas (校验对象要满足至少一个子 schema)
+- oneOf: Must be valid against exactly one of the subschemas (校验对象要满足其中一个子 schema)
+  All of these keywords must be set to an array, where each item is a schema.(上面的三个，所有这些关键字都必须设置为一个数组，其中每个项都是一个模式)
+  In addition, there is:
+- not: Must not be valid against the given schema （不满足校验条件时，才通过）
+
+##### 举例
+
+**待校验内容**
+
+```ts
+{
+    "count": 50
+}
+
+```
+
+1、**allOf**:所有条件满足时，校验才会通过
+schema 示例：
+
+```
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"required": [],
+	"properties": {
+		"count": {
+			"$id": "#/properties/count",
+			"allOf": [{
+			  "type": "number"
+			},
+			{
+			  "minimum": 90
+			}]
+		}
+	}
+}
+
+```
+
+校验结果：
+
+```
+// 不通过，最小值90
+{
+    "schemaLocation": "#/properties/count",
+    "pointerToViolation": "#/count",
+    "causingExceptions": [
+        {
+            "schemaLocation": "#/properties/count/allOf/1",
+            "pointerToViolation": "#/count",
+            "causingExceptions": [],
+            "keyword": "minimum",
+            "message": "50 is not greater or equal to 90"
+        }
+    ],
+    "keyword": "allOf",
+    "message": "#: only 1 subschema matches out of 2",
+    "validateResult": "FAILED"
+}
+
+```
+
+2、**anyOf**:只要有一个满足条件，校验就可以成功
+schema 示例：
+
+```
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"required": [],
+	"properties": {
+		"count": {
+			"$id": "#/properties/count",
+			"anyOf": [{
+			  "type": "number"
+			},
+			{
+			  "minimum": 20
+			}]
+		}
+	}
+}
+
+```
+
+校验结果：
+
+```
+// 校验 type 和 mininum，通过了
+
+```
+
+3、**oneOf**:有且仅有一个条件满足时，校验才能通过
+schema 示例：
+
+```
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"required": [],
+	"properties": {
+		"count": {
+			"$id": "#/properties/count",
+			"oneOf": [{
+			  "type": "number"
+			},
+			{
+			  "minimum": 20
+			}]
+		}
+	}
+}
+```
+
+校验结果：
+
+```
+// 只能有一个条件，而不是两个条件
+{
+    "schemaLocation": "#/properties/count",
+    "pointerToViolation": "#/count",
+    "causingExceptions": [],
+    "keyword": "oneOf",
+    "message": "#: 2 subschemas matched instead of one",
+    "validateResult": "FAILED"
+}
+
+
+```
+
+4、**not**:不满足校验条件时，校验才能通过
+schema 示例：
+
+```
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://example.com/root.json",
+	"type": "object",
+	"required": [],
+	"properties": {
+		"count": {
+			"$id": "#/properties/count",
+			"not": {
+			  "type": "number"
+			}
+		}
+	}
+}
+
+```
+
+校验结果：
+
+```
+{
+    "schemaLocation": "#/properties/count",
+    "pointerToViolation": "#/count",
+    "causingExceptions": [],
+    "keyword": "not",
+    "message": "subject must not be valid against schema {\"type\":\"number\"}",
+    "validateResult": "FAILED"
+}
+
+```
+
+##### 复杂示例
+
+待校验内容
+
+```ts
+{
+    "ARRAY": [
+        {
+            "item": 2
+        },
+        {
+            "item": "true"
+        }
+    ]
+}
+
+```
+
+schema 示例
+
+```ts
+// 数组元素可能存在不同类型的取值，这里对数组元素进行了多种可能性的校验
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "required": [],
+    "properties": {
+        "ARRAY": {
+            "$id": "#/properties/ARRAY",
+            "type": "array",
+            "items": {
+                "$id": "#/properties/ARRAY/items",
+                "type": "object",
+                "required": [],
+                "oneOf": [
+                    {
+                        "properties": {
+                            "item": {
+                                "$id": "#/properties/ARRAY/items/properties/item",
+                                "type": "number",
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    {
+                        "properties": {
+                            "item": {
+                                "$id": "#/properties/ARRAY/items/properties/item",
+                                "type": "string",
+                                "parttern": "true"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
+
+```
