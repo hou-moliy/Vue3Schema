@@ -1,6 +1,7 @@
-import { PropType, defineComponent } from "vue";
+import { PropType, defineComponent, provide } from "vue";
 import { Schema, SchemaTypes } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
+import { SchemaFormContextKey } from "./context";
 export default defineComponent({
   props: {
     schema: {
@@ -17,8 +18,13 @@ export default defineComponent({
   },
   name: "SchemaForm",
   setup(props, { slots, emit, attrs }) {
+    const context = {
+      SchemaFormItems,
+    };
+    provide(SchemaFormContextKey, context);
+
     return () => {
-      return <SchemaFormItems {...props} />;
+      return <SchemaFormItems {...props} rootSchema={props.schema} />;
     };
   },
 });

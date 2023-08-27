@@ -1,7 +1,7 @@
 <template>
-  <input type="text" @input="handleChange" />
+  <input type="text" :value="props.value" @input="handleChange" />
 </template>
-<script lang="ts" setup>
+<script lang="ts" setup name="StringFeild">
 import { ref, PropType } from "vue";
 import { Schema, FiledPropsDefine } from "../types";
 const props = defineProps(FiledPropsDefine);

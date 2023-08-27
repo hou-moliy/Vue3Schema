@@ -18,7 +18,7 @@ export interface Schema {
   title?: string;
   default?: any;
   properties?: {
-    [key: string]: Schema | { $ref: string };
+    [key: string]: Schema;
   };
   items?: Schema | Schema[] | SchemaRef;
   uniqueItems?: any;
@@ -47,6 +47,10 @@ export interface Schema {
 
 export const FiledPropsDefine = {
   schema: {
+    type: Object as PropType<Schema>,
+    required: true,
+  },
+  rootSchema: {
     type: Object as PropType<Schema>,
     required: true,
   },
