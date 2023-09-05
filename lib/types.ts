@@ -1,4 +1,5 @@
-import { PropType } from "vue";
+import { PropType, defineComponent } from "vue";
+
 export enum SchemaTypes {
   "NUMBER" = "number",
   "INTEGER" = "integer",
@@ -62,3 +63,8 @@ export const FiledPropsDefine = {
     required: true,
   },
 } as const; // as const 变成只读
+
+export const TypeHelperComponent = defineComponent({
+  props: FiledPropsDefine,
+});
+export type CommonFieldType = typeof TypeHelperComponent;
