@@ -3,6 +3,7 @@ import { Schema, SchemaTypes, FiledPropsDefine } from "./types";
 import StringField from "./fields/StringField.vue";
 import NumberField from "./fields/NumberField.vue";
 import ObjectField from "./fields/ObjectField";
+import ArrayField from "./fields/ArrayField";
 import { retrieveSchema } from "./utils";
 
 export default defineComponent({
@@ -28,6 +29,9 @@ export default defineComponent({
           break;
         case SchemaTypes.OBJECT:
           Component = ObjectField;
+          break;
+        case SchemaTypes.ARRAY:
+          Component = ArrayField;
           break;
         default:
           console.warn(`${type} is not supported`);
