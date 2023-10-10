@@ -123,7 +123,7 @@ export default defineComponent({
   示例代码
 
 ```js
-// 参考schema - tests文件夹下的test.js文件;
+// 参考schema-tests文件夹下的test.js文件;
 ```
 
 #### 如何自定义关键字
@@ -146,7 +146,7 @@ export default defineComponent({
 
 #### 本章目标
 
-- 确定组件的借口和其定义
+- 确定组件的接口和其定义
 - 开发入口组件的实现
 - 开发基础渲染的实现
 

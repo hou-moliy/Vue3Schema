@@ -28,6 +28,12 @@ export default {
           },
         ],
       },
+      singleTypeArray: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+      },
     },
   },
   uiSchema: {
@@ -52,5 +58,6 @@ export default {
     age: 75,
     bio: "Roundhouse kicking asses since 1940",
     password: "noneed",
+    singleTypeArray: ["单一类型"],
   },
 };
