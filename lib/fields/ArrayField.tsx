@@ -2,6 +2,7 @@ import { defineComponent, PropType } from "vue";
 import { FiledPropsDefine, Schema } from "../types";
 import { useVJSFContext } from "../context";
 import { createUseStyles } from "vue-jss";
+import SelectionWidget from "../widgets/Selection";
 /**
  * items是同一种类型
  * {
@@ -187,8 +188,21 @@ export default defineComponent({
             </ArrayItemWrapper>
           );
         });
+      } else {
+        // 是select 有enum
+        const enumOptions = (schema.items as any).enum;
+        const options = enumOptions.map((e: any) => ({
+          key: e,
+          value: e,
+        }));
+        return (
+          <SelectionWidget
+            value={value}
+            options={options}
+            onChange={props.onChange}
+          ></SelectionWidget>
+        );
       }
-      return <div>here</div>;
     };
   },
 });

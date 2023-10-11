@@ -42,6 +42,13 @@ export default {
           },
         },
       },
+      multipleArray: {
+        type: "array",
+        items: {
+          type: "string",
+          enum: ["a", "b", "c"],
+        },
+      },
     },
   },
   uiSchema: {
@@ -64,12 +71,13 @@ export default {
     firstName: "Chuck",
     lastName: "Norris",
     telephone: "123-456-7890",
-    staticArray: ["a", 2],
+    staticArray: ["staticArray", 2],
     singleTypeArray: [
       {
-        name: "Chuck",
+        name: "Chuck singleTypeArray",
         age: 75,
       },
     ],
+    multipleArray: [],
   },
 };
