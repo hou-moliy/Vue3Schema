@@ -192,8 +192,9 @@ export default defineComponent({
         // 是select 有enum
         const enumOptions = (schema.items as any).enum;
         const options = enumOptions.map((e: any) => ({
-          key: e,
-          value: e,
+          // 判读e是不是对象，是e.key，不是判断是不是字符串，是就e
+          key: e.key ? e.key : e,
+          value: e.value ? e.value : e,
         }));
         return (
           <SelectionWidget

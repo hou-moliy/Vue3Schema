@@ -32,7 +32,7 @@ export interface Schema {
   // TODO：uiSchema
   // vjsf?: VueJsonSchemaConfig
   required?: string[];
-  enum?: any[];
+  enum?: (object | string | number)[]; //  enum支持的类型，对象，字符串，数字 联合类型
   enumNames?: any[];
   enumKeyValue?: any[];
   additionalProperties?: any;
