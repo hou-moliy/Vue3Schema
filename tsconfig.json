@@ -36,7 +36,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "lib/***/*.vue"
-  ],
+, "tests/unit/example.spec.ts1"  ],
   "exclude": [
     "node_modules"
   ],

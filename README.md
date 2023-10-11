@@ -610,3 +610,5 @@ it("async", async () => {
   expect(wrapper.text()).toMatch("12");
 });
 ```
+
+### 6-4 如何使用 vue test utils 写测试用例

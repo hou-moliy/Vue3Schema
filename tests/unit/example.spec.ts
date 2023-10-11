@@ -67,7 +67,7 @@ describe("HelloWorld.vue", () => {
     await wrapper.setProps({
       msg: "更新了的值",
     });
-    expect(wrapper.text()).toMatch("12");
+    expect(wrapper.text()).toMatch("更新了的值");
   });
   it("should work", () => {
     expect(1 + 1).toBe(2);
