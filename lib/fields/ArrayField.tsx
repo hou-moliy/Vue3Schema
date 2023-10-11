@@ -1,7 +1,7 @@
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { FiledPropsDefine, Schema } from "../types";
 import { useVJSFContext } from "../context";
-
+import { createUseStyles } from "vue-jss";
 /**
  * items是同一种类型
  * {
@@ -19,38 +19,86 @@ import { useVJSFContext } from "../context";
  *   items: { type: string, enum: ['1', '2'] }, enum里面是可选值
  * }
  */
+// 样式
+const useStyles = createUseStyles({
+  container: {
+    // 类名 container
+    border: "1px solid #eee",
+  },
+  actions: {
+    // 类名 actions
+    background: "#eee",
+    padding: 10, // 10px
+    textAlign: "right",
+  },
+  action: {
+    // 类名 action
+    "& + &": {
+      // 选择器 + 选择器 选择器相邻的兄弟元素
+      marginLeft: 10, // 10px
+    },
+  },
+  content: {
+    // 类名 content
+    padding: 10,
+  },
+});
+
 // ArrayField的子组件 用来包裹每一个item 用来处理删除 添加 以及 上移 下移
 const ArrayItemWrapper = defineComponent({
   name: "ArrayItemWrapper",
   props: {
     onAdd: {
-      type: Function,
+      type: Function as PropType<() => void>, // 类型断言 用来告诉ts这是一个函数 传入一个index 返回void
       required: true,
     },
     onDelete: {
-      type: Function,
+      type: Function as PropType<() => void>,
       required: true,
     },
     onUp: {
-      type: Function,
+      type: Function as PropType<() => void>,
       required: true,
     },
     onDown: {
-      type: Function,
+      type: Function as PropType<() => void>,
+      required: true,
+    },
+    index: {
+      type: Number,
       required: true,
     },
   },
   setup(props, { slots }) {
+    const classesRef = useStyles();
+
+    const handleAdd = () => props.onAdd();
+
+    const handleDelete = () => props.onDelete();
+
+    const handleUp = () => props.onUp();
+
+    const handleDown = () => props.onDown();
+
     return () => {
+      const classes = classesRef.value;
       return (
-        <div>
-          <div>
-            <button>删除</button>
-            <button>添加</button>
-            <button>上移</button>
-            <button>下移</button>
+        <div class={classes.container}>
+          <div class={classes.actions}>
+            <button class={classes.action} onClick={handleDelete}>
+              删除
+            </button>
+            <button class={classes.action} onClick={handleAdd}>
+              添加
+            </button>
+            <button class={classes.action} onClick={handleUp}>
+              上移
+            </button>
+            <button class={classes.action} onClick={handleDown}>
+              下移
+            </button>
           </div>
-          <div>
+          <div class={classes.content}>
             <div>{slots.default && slots.default()}</div>
           </div>
         </div>
@@ -70,6 +118,30 @@ export default defineComponent({
       const arr = Array.isArray(value) ? value : [];
       arr[index] = v;
       props.onChange(arr);
+    };
+    const onAdd = (value: any) => {
+      const newV = Array.isArray(value) ? value : [];
+      newV.push("");
+      props.onChange(newV);
+    };
+    const onDelete = (value: any, index: number) => {
+      const newV = Array.isArray(value) ? value : [];
+      newV.splice(index, 1);
+      props.onChange(newV);
+    };
+    const onUp = (value: any, index: number) => {
+      const newV = Array.isArray(value) ? value : [];
+      if (index === 0) return; // 如果是第一个就不用上移了
+      const item = newV.splice(index, 1); // splice返回的是一个数组 ，返回的是删除的元素
+      newV.splice(index - 1, 0, item[0]);
+      props.onChange(newV);
+    };
+    const onDown = (value: any, index: number) => {
+      const newV = Array.isArray(value) ? value : [];
+      if (index === newV.length - 1) return; // 如果是最后一个就不用下移了
+      const item = newV.splice(index, 1);
+      newV.splice(index + 1, 0, item[0]);
+      props.onChange(newV);
     };
     return () => {
       const { schema, rootSchema, value } = props;
@@ -100,30 +172,11 @@ export default defineComponent({
           return (
             <ArrayItemWrapper
               key={index}
-              onAdd={() => {
-                const newV = Array.isArray(value) ? value : [];
-                newV.push("");
-                props.onChange(newV);
-              }}
-              onDelete={() => {
-                const newV = Array.isArray(value) ? value : [];
-                newV.splice(index, 1);
-                props.onChange(newV);
-              }}
-              onUp={() => {
-                const newV = Array.isArray(value) ? value : [];
-                if (index === 0) return;
-                const item = newV.splice(index, 1);
-                newV.splice(index - 1, 0, item[0]);
-                props.onChange(newV);
-              }}
-              onDown={() => {
-                const newV = Array.isArray(value) ? value : [];
-                if (index === newV.length - 1) return;
-                const item = newV.splice(index, 1);
-                newV.splice(index + 1, 0, item[0]);
-                props.onChange(newV);
-              }}
+              onAdd={() => onAdd(value)}
+              onDelete={() => onDelete(value, index)}
+              onUp={() => onUp(value, index)}
+              onDown={() => onDown(value, index)}
+              index={index}
             >
               <SchemaFormItems
                 schema={schema.items as Schema}

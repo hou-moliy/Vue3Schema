@@ -31,7 +31,15 @@ export default {
       singleTypeArray: {
         type: "array",
         items: {
-          type: "string",
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+            },
+            age: {
+              type: "number",
+            },
+          },
         },
       },
     },
@@ -55,9 +63,13 @@ export default {
     // 默认值
     firstName: "Chuck",
     lastName: "Norris",
-    age: 75,
-    bio: "Roundhouse kicking asses since 1940",
-    password: "noneed",
-    singleTypeArray: ["单一类型"],
+    telephone: "123-456-7890",
+    staticArray: ["a", 2],
+    singleTypeArray: [
+      {
+        name: "Chuck",
+        age: 75,
+      },
+    ],
   },
 };

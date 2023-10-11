@@ -1,5 +1,5 @@
 <template>
-  <input type="text" @input="handleChange" />
+  <input type="number" :value="props.value" @input="handleChange" />
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
