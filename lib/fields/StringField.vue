@@ -6,7 +6,7 @@ import { ref, PropType } from "vue";
 import { Schema, FiledPropsDefine } from "../types";
 const props = defineProps(FiledPropsDefine);
 const handleChange = (e: any) => {
-  console.log(e, "StringField");
+  // console.log(e, "StringField");
   props.onChange(e.target.value);
 };
 </script>

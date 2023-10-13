@@ -11,7 +11,6 @@ const handleChange = (e: any) => {
   if (Number.isNaN(num)) {
     props.onChange(undefined);
   } else {
-    console.log(num, Number.isNaN(num), "NumberField");
     props.onChange(num);
   }
 };
