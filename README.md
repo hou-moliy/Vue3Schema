@@ -612,3 +612,31 @@ it("async", async () => {
 ```
 
 ### 6-4 如何使用 vue test utils 写测试用例
+
+参见 jsonSchemaForm 的单元测试。
+
+### 6-7 单元测试的指标讲解
+
+```ts
+// -- 的意思是 要将--coverage这个传递给vue-cli-service 传递给jest
+npm run test:unit -- --coverage
+// 展示的是依赖的所有文件和执行覆盖率
+/**
+ * package.json中配置 vue-cli-service 将jest又封装了一层
+ *  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit -- coverage",
+    "lint": "vue-cli-service lint"
+  },
+ */
+```
+
+可以根据这个来优化自己的单元测试，默认会生成一个文件夹/coverage
+从左到右依次表示的内容分别是
+
+- Stmts 语句覆盖率
+- Lines 行覆盖率
+- Branch 不同条件的 if else 是否都有执行到
+- Funcss 是否每个函数有都被执行到 （以上都是 100 表示都被执行到，否则表示覆盖率非 100%）
+- 最后一列，表示没有被执行到的的行数
