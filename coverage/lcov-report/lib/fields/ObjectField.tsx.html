@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.31% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/19</span>
+                <span class='fraction'>20/20</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">27.77% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/18</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,39 +101,41 @@
 <a name='L36'></a><a href='#L36'>36</a>
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,30 +150,31 @@ import { isObject } from "../utils";
 export default defineComponent({
   name: "ObjectField",
   props: FiledPropsDefine,
-<span class="fstat-no" title="function not covered" >  setup(</span>props) {
-    const context = <span class="cstat-no" title="statement not covered" >useVJSFContext();</span>
-    const handleObjectFieldChange = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(k</span>ey: string, v: any) =&gt; {</span>
-      const value: any = <span class="cstat-no" title="statement not covered" >isObject(props.value) ? props.value : {};</span>
+  setup(props) {
+    const context = useVJSFContext();
+    const handleObjectFieldChange = (key: string, v: any) =&gt; {
+      const value: any = isObject(props.value) ? props.value : {};
       if (v === undefined) {
-<span class="cstat-no" title="statement not covered" >        delete value[key];</span>
+        console.log("===delete===");
+        delete value[key];
       } else {
-<span class="cstat-no" title="statement not covered" >        value[key] = v;</span>
+        value[key] = v;
       }
-<span class="cstat-no" title="statement not covered" >      props.onChange(value);</span>
+      props.onChange(value);
     };
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >() =&gt; </span>{</span>
-      const { schema, rootSchema, value } = <span class="cstat-no" title="statement not covered" >props;</span>
-      const { SchemaFormItems } = <span class="cstat-no" title="statement not covered" >context;</span>
-      const properties = <span class="cstat-no" title="statement not covered" >schema.properties || {};</span>
-      const curValue: any = <span class="cstat-no" title="statement not covered" >isObject(value) ? value : {};</span>
-<span class="cstat-no" title="statement not covered" >      return Object.keys(properties).map(<span class="fstat-no" title="function not covered" >(k</span>: string, index: number<span class="cstat-no" title="statement not covered" >) =&gt; (</span></span>
+    return () =&gt; {
+      const { schema, rootSchema, value } = props;
+      const { SchemaFormItems } = context;
+      const properties = schema.properties || {};
+      const curValue: any = isObject(value) ? value : {};
+      return Object.keys(properties).map((k: string, index: number) =&gt; (
         &lt;SchemaFormItems
           schema={properties[k]}
           rootSchema={rootSchema}
           value={curValue[k]}
           key={index}
-          onChange={(<span class="fstat-no" title="function not covered" >v: any)</span> =&gt; <span class="cstat-no" title="statement not covered" >handleObjectFieldChange(k, v)}</span>
+          onChange={(v: any) =&gt; handleObjectFieldChange(k, v)}
         /&gt;
       ));
     };
@@ -184,7 +187,7 @@ export default defineComponent({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-10-13T03:13:19.795Z
+                at 2023-10-13T08:35:29.802Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

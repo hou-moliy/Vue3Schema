@@ -551,20 +551,20 @@ describe("HelloWorld.vue", () => {
 
 ```ts
 beforeEach(() => {
-  // 每个测试用例执行前都会执行
+  // 每个测试用例执行前都会执行，执行多次
   console.log("beforeEach");
 });
 
 afterEach(() => {
-  // 每个测试用例执行后都会执行
+  // 每个测试用例执行后都会执行，执行多次
   console.log("afterEach");
 });
 beforeAll(() => {
-  // 所有测试用例执行前都会执行
+  // 所有测试用例执行前都会执行,执行一次
   console.log("beforeAll");
 });
 afterAll(() => {
-  // 所有测试用例执行后都会执行
+  // 所有测试用例执行后都会执行，执行一次
   console.log("afterAll");
 });
 ```
@@ -637,6 +637,7 @@ npm run test:unit -- --coverage
 
 - Stmts 语句覆盖率
 - Lines 行覆盖率
-- Branch 不同条件的 if else 是否都有执行到
+- Branch 不同条件的 if else ，三元判断，正则等判断是否都有执行到
 - Funcss 是否每个函数有都被执行到 （以上都是 100 表示都被执行到，否则表示覆盖率非 100%）
 - 最后一列，表示没有被执行到的的行数
+  ![覆盖率图片示例](./src/assets/coverage.png)

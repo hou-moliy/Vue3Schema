@@ -23,7 +23,8 @@ describe("JsonSchemaForm", () => {
      * 但是自己写的组件，一般都是关注 onChange 事件的实现细节
      */
     numberField.props("onChange")("123"); // 触发 numberField 组件的 onChange 事件
-    expect(val).toBe("123"); // 断言 val 的值为 123
+    // 为什么是 "123" 而不是 123 呢？因为我们的 onChange 事件的实现是 val = v，v 是字符串，所以 val 也是字符串
+    expect(val).toBe("123"); // 断言 val 的值为 "123"
     /**
      * 通过 find 找到 numberField 组件下的 input 元素
      * 通过 input.element.value 修改 input 的值
