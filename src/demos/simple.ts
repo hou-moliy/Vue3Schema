@@ -78,6 +78,6 @@ export default {
         age: 75,
       },
     ],
-    multipleArray: [],
+    multipleArray: ["b"],
   },
 };
