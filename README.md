@@ -641,3 +641,8 @@ npm run test:unit -- --coverage
 - Funcss 是否每个函数有都被执行到 （以上都是 100 表示都被执行到，否则表示覆盖率非 100%）
 - 最后一列，表示没有被执行到的的行数
   ![覆盖率图片示例](./src/assets/coverage.png)
+
+```ts
+// -t后面是正则匹配的，匹配到arrayField的单元测试
+npm run test:unit -- -t=arrayField
+```

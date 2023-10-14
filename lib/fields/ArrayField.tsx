@@ -4,21 +4,30 @@ import { useVJSFContext } from "../context";
 import { createUseStyles } from "vue-jss";
 import SelectionWidget from "../widgets/Selection";
 /**
- * items是同一种类型
- * {
+ * items是一个对象
+ *
  *   items: { type: string },
- * }
+ *
+ * ====> x:[
+ * 'hyz',
+ *  75
+ * ]
  *items数组的所有子item可以不是同一种类型
- * {
+ *items是一个数组
  *   items: [
  *    { type: string },
  *    { type: number }
  *   ]
- * }
  *
- * {
- *   items: { type: string, enum: ['1', '2'] }, enum里面是可选值
- * }
+ * ====> x:[{
+ *  name:'hyz',
+ *  age:75
+ * }]
+ *
+ *items是一个对象，但是值是可选的
+ * items: { type: string, enum: ['1', '2'] }, enum里面是可选值
+ *
+ * ====> x:['1','2']
  */
 // 样式
 const useStyles = createUseStyles({
