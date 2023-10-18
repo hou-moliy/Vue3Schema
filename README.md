@@ -646,3 +646,44 @@ npm run test:unit -- --coverage
 // -t后面是正则匹配的，匹配到arrayField的单元测试
 npm run test:unit -- -t=arrayField
 ```
+
+## 7 主题系统
+
+Jest
+
+### 7-1 为什么需要主题系统
+
+主题系统不同于样式主题
+
+- 交互可以变化
+- 组件的产出可以完全不同
+- 统一接口之后所有内容皆可以自定义
+
+可以基于不同组件库来实现
+
+### 7-2 组件分开打包
+
+#### 减少强依赖
+
+这样避免把没有用到的主题打包进去，打包后的里面只包含我们用到的主题
+
+```ts
+// 配置package.json来分开打包
+// 同时打包,先清除dist,避免文件是旧的
+// 需要先安装 npm i rimraf -D
+"build": "rimraf dist && npm run build:core && npm run build:theme",
+// --name index 打包的文件直接放在dist/
+"build:core": "TYPE=lib vue-cli-service build --target  lib --name index --no-clean lib/index.ts",
+// --name theme-default/index 打包的文件放在theme-default/
+// --no-clean 是避免执行npm run build:theme的时候，将原来执行npm run build:core产生的文件删除了
+"build:theme": "TYPE=lib vue-cli-service build --target lib --name theme-default/index --no-clean lib/theme-default/index.tsx",
+
+// 分开打包，执行npm run build:theme 之后，dist文件里面生成了xxx.common.j和xxx.umd.js
+/// common.js 需要node安装的，webpack进行打包会用到的文件，npm 安装在nodemodules
+// umd.js 我们直接可以通过script引用的
+// 安装这个包，用来清除dist包
+npm i rimraf -D
+
+```
+
+### 7-3 拆分主题并进行定义
