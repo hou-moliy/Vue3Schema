@@ -653,13 +653,11 @@ Widgets
 
 ### 7-1 为什么需要主题系统
 
-主题系统不同于样式主题
+因为对于不同的用户来说，他们可能希望表单的最终展现形式是不一样的。但是核心的表单规则和校验是可以通用的，我们把不同的部分拆分出来，通过实现主题就可以实现不同的展现啦。表单可以基于不同组件库来实现,主题系统不同于样式主题
 
 - 交互可以变化
 - 组件的产出可以完全不同
 - 统一接口之后所有内容皆可以自定义
-
-可以基于不同组件库来实现
 
 #### 什么是 widget？
 
@@ -697,8 +695,4 @@ npm i rimraf -D
 
 ### 7-3 拆分主题并进行定义
 
-什么是 widgets ?
-// 什么是 widget？
-// 是我们在 theme 中定义的组件，比如 SelectionWidget, 他是一个组件，我们可以在 theme 中定义多个组件，然后在这里统一导出，
-// json schema form 会根据我们的配置来渲染对应的组件, 例如我们在 theme 中定义了一个组件，叫做 SelectionWidget, 然后我们在这里导出，
-// 那么 json schema form 就会根据我们的配置来渲染 SelectionWidget 这个组件，这就是 widget 的作用。不同的 theme 中的 widget 是不一样的，这样就可以实现不同的主题。
+jsonSchema 相关组件 props 新增 theme; 定义 SelectionWidget,从 theme-default 中导出 widgets, 并将 SelectionWidget 作为 widgets 的一个属性, 然后层层传递 theme,最后由 provider 传递给下层组件使用
