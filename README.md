@@ -696,3 +696,47 @@ npm i rimraf -D
 ### 7-3 拆分主题并进行定义
 
 jsonSchema 相关组件 props 新增 theme; 定义 SelectionWidget,从 theme-default 中导出 widgets, 并将 SelectionWidget 作为 widgets 的一个属性, 然后层层传递 theme,最后由 provider 传递给下层组件使用
+
+```ts
+// theme相关的定义
+// 公共的Widgets的props定义
+const commonWidgetPropsDefine = {
+  value: {
+    required: true,
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  },
+} as const; // as const 变成只读
+//  widget中SelectWidget的props定义
+const selectWidgetPropsDefine = {
+  ...commonWidgetPropsDefine,
+  options: {
+    type: Array as PropType<{ key: string; value: string }[]>,
+    required: true,
+  },
+};
+// DefineComponent 和 typeof 的组合 用于定义组件类型
+// DefineComponent 和defineComponent的区别是，DefineComponent是一个类型，defineComponent是一个函数
+type SelectionWidgetDefine = DefineComponent<typeof selectWidgetPropsDefine>;
+
+export interface Theme {
+  widgets: {
+    SelectionWidget: SelectionWidgetDefine;
+  };
+}
+```
+
+### 7-4 使用 ThemeProvider 进行解耦
+
+我们希望改变这个 theme 的时候，传递下去的数据能够被更新到，所以这个 theme 不能是一个值，应该是一个 ref 对象。接下来我们用这个思路来实现 theme-default/theme.tsx。
+
+```ts
+// widget的值就固定了，无论后面context的值怎么修改，都不会更新页面的widget了
+const widget = context.value.widgets[name]; // 不推荐
+// 使用commputed，推荐
+const widgetRef = commputed(() => {
+  return (context.value.widgets as any)[name];
+});
+```
