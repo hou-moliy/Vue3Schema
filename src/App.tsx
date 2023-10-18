@@ -3,6 +3,7 @@ import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";
 import demos from "./demos";
 import SchemaForm from "../lib";
+import themeDefault from "../lib/theme-default";
 // TODO: 在lib中export
 type Schema = any;
 type UISchema = any;
@@ -175,6 +176,7 @@ export default defineComponent({
                 schema={demo.schema}
                 onChange={handleChange}
                 value={demo.data}
+                theme={themeDefault as any}
               />
               {/* <SchemaForm
                 schema={demo.schema!}

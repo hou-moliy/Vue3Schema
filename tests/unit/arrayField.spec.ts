@@ -5,6 +5,8 @@ import JsonSchemaForm, {
   ArrayField,
   Selection,
 } from "../../lib";
+import themeDefault from "../../lib/theme-default";
+
 describe("arrayField", () => {
   it("正常渲染多类型的数组", () => {
     let val: { name: string; age: number }[] = [
@@ -33,6 +35,7 @@ describe("arrayField", () => {
           console.log("v", v);
           val = v;
         },
+        theme: themeDefault as any,
       },
     });
     const arrField = wrapper.findComponent(ArrayField);
@@ -59,6 +62,7 @@ describe("arrayField", () => {
           console.log("v", v);
           val = v;
         },
+        theme: themeDefault as any,
       },
     });
     const arrField = wrapper.findComponent(ArrayField);
@@ -89,6 +93,7 @@ describe("arrayField", () => {
           console.log("v", v);
           val = v;
         },
+        theme: themeDefault as any,
       },
     });
     const arrField = wrapper.findComponent(ArrayField);

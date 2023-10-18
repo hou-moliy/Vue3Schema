@@ -649,7 +649,7 @@ npm run test:unit -- -t=arrayField
 
 ## 7 主题系统
 
-Jest
+Widgets
 
 ### 7-1 为什么需要主题系统
 
@@ -660,6 +660,15 @@ Jest
 - 统一接口之后所有内容皆可以自定义
 
 可以基于不同组件库来实现
+
+#### 什么是 widget？
+
+就是一个组件，用来渲染某种类型的数据，比如字符串，数字，布尔值，数组，对象等等
+
+#### widget 的作用
+
+是我们在 theme-default/ 中定义的组件，比如 SelectionWidget, 他是一个组件，我们可以在 theme 中定义多个组件，然后在这里统一导出，
+那么 json schema form 就会根据我们的配置来渲染 SelectionWidget 这个组件，这就是 widget 的作用。不同的 theme 中的 widget 是不一样的，这样就可以实现不同的主题。
 
 ### 7-2 组件分开打包
 
@@ -687,3 +696,9 @@ npm i rimraf -D
 ```
 
 ### 7-3 拆分主题并进行定义
+
+什么是 widgets ?
+// 什么是 widget？
+// 是我们在 theme 中定义的组件，比如 SelectionWidget, 他是一个组件，我们可以在 theme 中定义多个组件，然后在这里统一导出，
+// json schema form 会根据我们的配置来渲染对应的组件, 例如我们在 theme 中定义了一个组件，叫做 SelectionWidget, 然后我们在这里导出，
+// 那么 json schema form 就会根据我们的配置来渲染 SelectionWidget 这个组件，这就是 widget 的作用。不同的 theme 中的 widget 是不一样的，这样就可以实现不同的主题。

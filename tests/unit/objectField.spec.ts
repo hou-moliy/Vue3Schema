@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import JsonSchemaForm, { NumberField, StringField } from "../../lib";
+import themeDefault from "../../lib/theme-default";
 
 describe("objectField", () => {
   let schema: any;
@@ -26,6 +27,7 @@ describe("objectField", () => {
         onChange: (v) => {
           value = v;
         },
+        theme: themeDefault as any,
       },
     });
     strField = wrapper.findComponent(StringField);
@@ -63,6 +65,7 @@ describe("objectField", () => {
         onChange: (v) => {
           value = v;
         },
+        theme: themeDefault as any,
       },
     });
     strField = wrapper.findComponent(StringField);
@@ -81,6 +84,7 @@ describe("objectField", () => {
         onChange: (v) => {
           value = v;
         },
+        theme: themeDefault as any,
       },
     });
     expect(wrapper.findComponent(StringField).exists()).toBeFalsy(); // 不存在

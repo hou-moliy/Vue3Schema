@@ -1,5 +1,6 @@
 import { mount } from "@vue/test-utils";
 import JsonSchemaForm, { NumberField } from "../../lib";
+import themeDefault from "../../lib/theme-default";
 
 describe("JsonSchemaForm", () => {
   it("正常渲染一个数字的输入框", (done) => {
@@ -13,6 +14,7 @@ describe("JsonSchemaForm", () => {
         onChange: (v) => {
           val = v;
         },
+        theme: themeDefault as any,
       },
     });
     const numberField = wrapper.findComponent(NumberField);

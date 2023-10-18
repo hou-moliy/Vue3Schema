@@ -2,7 +2,6 @@ import { defineComponent, PropType } from "vue";
 import { FiledPropsDefine, Schema } from "../types";
 import { useVJSFContext } from "../context";
 import { createUseStyles } from "vue-jss";
-import SelectionWidget from "../widgets/Selection";
 /**
  * items是一个对象
  *
@@ -156,6 +155,7 @@ export default defineComponent({
     return () => {
       const { schema, rootSchema, value } = props;
       const SchemaFormItems = context.SchemaFormItems;
+      const SelectionWidget = context.theme.widgets.SelectionWidget;
       // 判断是否是数组
       const isMultiType = Array.isArray(schema.items);
       // 判断是否是同一种类型 有enum 说明是同一种类型 有enum说明是select

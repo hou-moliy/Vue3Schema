@@ -1,4 +1,4 @@
-import { PropType, defineComponent } from "vue";
+import { PropType, defineComponent, DefineComponent } from "vue";
 
 export enum SchemaTypes {
   "NUMBER" = "number",
@@ -45,7 +45,7 @@ export interface Schema {
   exclusiveMaximum?: number;
   exclusiveMinimum?: number;
 }
-
+// 用于定义组件的props类型
 export const FiledPropsDefine = {
   schema: {
     type: Object as PropType<Schema>,
@@ -64,7 +64,38 @@ export const FiledPropsDefine = {
   },
 } as const; // as const 变成只读
 
+// 定义组件类型
 export const TypeHelperComponent = defineComponent({
   props: FiledPropsDefine,
 });
+// 定义组件类型
 export type CommonFieldType = typeof TypeHelperComponent;
+
+// theme相关的定义
+// 公共的Widgets的props定义
+const commonWidgetPropsDefine = {
+  value: {
+    required: true,
+  },
+  onChange: {
+    type: Function as PropType<(v: any) => void>,
+    required: true,
+  },
+} as const; // as const 变成只读
+//  widget中SelectWidget的props定义
+const selectWidgetPropsDefine = {
+  ...commonWidgetPropsDefine,
+  options: {
+    type: Array as PropType<{ key: string; value: string }[]>,
+    required: true,
+  },
+};
+// DefineComponent 和 typeof 的组合 用于定义组件类型
+// DefineComponent 和defineComponent的区别是，DefineComponent是一个类型，defineComponent是一个函数
+type SelectionWidgetDefine = DefineComponent<typeof selectWidgetPropsDefine>;
+
+export interface Theme {
+  widgets: {
+    SelectionWidget: SelectionWidgetDefine;
+  };
+}
