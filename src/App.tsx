@@ -4,6 +4,7 @@ import MonacoEditor from "./components/MonacoEditor";
 import demos from "./demos";
 import SchemaForm from "../lib";
 import themeDefault from "../lib/theme-default";
+import { ThemeProvider } from "../lib/index";
 // TODO: 在lib中export
 type Schema = any;
 type UISchema = any;
@@ -130,7 +131,7 @@ export default defineComponent({
       const selected = selectedRef.value;
       return (
         // <StyleThemeProvider>
-        // <VJSFThemeProvider theme={theme as any}>
+        // <VJSFThemeProvider  theme={theme as any}>
         <div class={classes.container}>
           <div class={classes.menu}>
             <h1>Vue3 JsonSchema Form</h1>
@@ -172,12 +173,13 @@ export default defineComponent({
               </div>
             </div>
             <div class={classes.form}>
-              <SchemaForm
-                schema={demo.schema}
-                onChange={handleChange}
-                value={demo.data}
-                theme={themeDefault as any}
-              />
+              <ThemeProvider theme={themeDefault as any}>
+                <SchemaForm
+                  schema={demo.schema}
+                  onChange={handleChange}
+                  value={demo.data}
+                />
+              </ThemeProvider>
               {/* <SchemaForm
                 schema={demo.schema!}
                 uiSchema={demo.uiSchema!}
@@ -188,7 +190,7 @@ export default defineComponent({
             </div>
           </div>
         </div>
-        // </VJSFThemeProvider>
+        // </VJSFThemeProvider >
         // </StyleThemeProvider>
       );
     };

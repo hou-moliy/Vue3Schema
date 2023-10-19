@@ -730,7 +730,7 @@ export interface Theme {
 
 ### 7-4 使用 ThemeProvider 进行解耦
 
-我们希望改变这个 theme 的时候，传递下去的数据能够被更新到，所以这个 theme 不能是一个值，应该是一个 ref 对象。接下来我们用这个思路来实现 theme-default/theme.tsx。
+我们希望改变这个 theme 的时候，传递下去的数据能够被更新到，所以这个 theme 不能是一个值，应该是一个 ref 对象。接下来我们用这个思路来实现 lib/theme.tsx。
 
 ```ts
 // widget的值就固定了，无论后面context的值怎么修改，都不会更新页面的widget了

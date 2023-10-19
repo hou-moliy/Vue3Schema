@@ -2,6 +2,7 @@ import { defineComponent, PropType } from "vue";
 import { FiledPropsDefine, Schema } from "../types";
 import { useVJSFContext } from "../context";
 import { createUseStyles } from "vue-jss";
+import { getWidget } from "../theme";
 /**
  * items是一个对象
  *
@@ -152,10 +153,11 @@ export default defineComponent({
       newV.splice(index + 1, 0, item[0]);
       props.onChange(newV);
     };
+    const SelectionWidget = getWidget("SelectionWidget").value;
     return () => {
       const { schema, rootSchema, value } = props;
       const SchemaFormItems = context.SchemaFormItems;
-      const SelectionWidget = context.theme.widgets.SelectionWidget;
+      // const SelectionWidget = context.theme.widgets.SelectionWidget;
       // 判断是否是数组
       const isMultiType = Array.isArray(schema.items);
       // 判断是否是同一种类型 有enum 说明是同一种类型 有enum说明是select
