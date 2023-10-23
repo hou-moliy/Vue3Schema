@@ -6,7 +6,7 @@ import {
   inject,
   ComputedRef,
 } from "vue";
-import { Theme } from "./types";
+import { Theme, SelectionWidgetNames, CommonWidgetNames } from "./types";
 // Symbol是一个唯一值 用来标识这个provide的key
 // 也就是说这个key是唯一的 不能重复
 const THEME_PROVIDER_KEY = Symbol();
@@ -27,7 +27,10 @@ const ThemeProvider = defineComponent({
   },
 });
 // 通过这个函数来获取theme
-export const getWidget = (name: string, props?: any) => {
+export const getWidget = <T extends SelectionWidgetNames | CommonWidgetNames>(
+  name: T,
+  props?: any,
+) => {
   // inject注入，返回的是一个计算属性的值，类型是ComputedRef的Theme类型
   const context: ComputedRef<Theme> | undefined =
     inject<ComputedRef<Theme>>(THEME_PROVIDER_KEY);
@@ -38,7 +41,7 @@ export const getWidget = (name: string, props?: any) => {
   // 这样当theme改变的时候，widgetRef的值也会改变，这样就可以实现动态的改变theme
   // 页面上的组件也会随之改变
   const widgetRef = computed(() => {
-    return (context.value.widgets as any)[name];
+    return context.value.widgets[name];
   });
   return widgetRef;
 };

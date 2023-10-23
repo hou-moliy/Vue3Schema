@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from "vue";
-import { FiledPropsDefine, Schema } from "../types";
+import { FiledPropsDefine, Schema, SelectionWidgetNames } from "../types";
 import { useVJSFContext } from "../context";
 import { createUseStyles } from "vue-jss";
 import { getWidget } from "../theme";
@@ -153,7 +153,9 @@ export default defineComponent({
       newV.splice(index + 1, 0, item[0]);
       props.onChange(newV);
     };
-    const SelectionWidget = getWidget("SelectionWidget").value;
+    const SelectionWidget = getWidget(
+      SelectionWidgetNames.SelectionWidget,
+    ).value;
     return () => {
       const { schema, rootSchema, value } = props;
       const SchemaFormItems = context.SchemaFormItems;

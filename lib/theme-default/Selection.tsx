@@ -1,21 +1,8 @@
-import { defineComponent, PropType, ref, watch } from "vue";
-
-export default defineComponent({
+import { defineComponent, ref, watch } from "vue";
+import { selectWidgetPropsDefine, SelectionWidgetDefine } from "../types";
+const SelectionWidget: any = defineComponent({
   name: "SelectionWidget",
-  props: {
-    value: {
-      // type: String,
-      // required: true,
-    },
-    options: {
-      type: Array as PropType<{ key: string; value: string }[]>,
-      required: true,
-    },
-    onChange: {
-      type: Function as PropType<(v: any) => void>,
-      required: true,
-    },
-  },
+  props: selectWidgetPropsDefine,
   setup(props) {
     const currentValueRef = ref(props.value);
     watch(currentValueRef, (newV) => {
@@ -44,3 +31,4 @@ export default defineComponent({
     };
   },
 });
+export default SelectionWidget;
