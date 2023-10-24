@@ -24,7 +24,9 @@ const SelectionWidget: any = defineComponent({
       return (
         <select multiple={true} v-model={currentValueRef.value}>
           {options.map((op) => (
-            <option value={op.value}>{op.key}</option>
+            <option value={op.value} key={op.value}>
+              {op.key}
+            </option>
           ))}
         </select>
       );
