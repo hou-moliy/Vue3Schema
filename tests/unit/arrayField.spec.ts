@@ -1,11 +1,7 @@
 import { mount } from "@vue/test-utils";
-import JsonSchemaForm, {
-  NumberField,
-  StringField,
-  ArrayField,
-  Selection,
-} from "../../lib";
+import { NumberField, StringField, ArrayField, Selection } from "../../lib";
 import themeDefault from "../../lib/theme-default";
+import TestComponent from "./utils/TestComponent";
 
 describe("arrayField", () => {
   it("正常渲染多类型的数组", () => {
@@ -16,7 +12,7 @@ describe("arrayField", () => {
       },
     ];
 
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: "array",
@@ -48,7 +44,7 @@ describe("arrayField", () => {
   });
   it("正常渲染单一类型的数组", () => {
     let val: string[] = ["str", "1"];
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: "array",
@@ -78,7 +74,7 @@ describe("arrayField", () => {
   });
   it("正常渲染选择类型的数组（有可选值）", () => {
     let val: string[] = ["a"];
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: "array",
