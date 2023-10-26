@@ -750,3 +750,36 @@ const widgetRef = commputed(() => {
 ### 7-8 controlledInput 的实现
 
 当我们 input 输入 123，但是 value 是 1，实际值和展示值不一致的时候，我们需要让 input 展示的值和 value 值一致
+
+## 9 校验
+
+Widgets
+
+### 9-1 jsonschema 的错误对象解析
+
+```ts
+// 执行node schema-tests/test 可以看到
+[
+  {
+    instancePath: "/pets/1", // 表示是pets数组的下标为1的元素出错了
+    schemaPath: "#/properties/pets/items/type", // json形式的访问路径
+    keyword: "type", // 表示是哪个关键字出错了
+    params: { type: "string" },
+    message: "must be string",
+  },
+  {
+    keyword: "range", // 表示是哪个关键字出错了
+    message: "值必须在[1,10]之间",
+    params: { keyword: "range" },
+    instancePath: "/ageRange",
+    schemaPath: "#/properties/ageRange/range", // json形式的访问路径
+  },
+  {
+    instancePath: "/age",
+    schemaPath: "#/errorMessage",
+    keyword: "errorMessage",
+    params: { errors: [Array] },
+    message: "错误",
+  },
+];
+```

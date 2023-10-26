@@ -45,7 +45,7 @@ const schema = {
     },
     pets: {
       type: "array",
-      items: { type: "string" },
+      items: { type: "string", maxLength: 3 },
     },
     isWorker: { type: "boolean" },
     email: { type: "string", format: "email" },
@@ -67,8 +67,8 @@ const validate = ajv.compile(schema);
 
 const data = {
   foo: 1,
-  age: 2,
-  pets: ["mini", "mimi"],
+  age: 1,
+  pets: ["mini", 2],
   isWorker: true,
   email: "1337312569@qq.com",
   name: "lala",
