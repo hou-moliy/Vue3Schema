@@ -748,3 +748,5 @@ const widgetRef = commputed(() => {
 当我们传递 props 的时候，重复的 props 的会自动合并，但是我们不一定希望使用这个功能的时候，有时候我们希望最后传递的参数覆盖上一个同名的参数，就需要关闭了 mergeProps 的功能
 
 ### 7-8 controlledInput 的实现
+
+当我们 input 输入 123，但是 value 是 1，实际值和展示值不一致的时候，我们需要让 input 展示的值和 value 值一致

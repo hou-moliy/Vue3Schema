@@ -7,7 +7,7 @@ export default defineComponent({
   props: FiledPropsDefine,
   setup(props) {
     const handleChange = (e: any) => {
-      props.onChange(e.target.value);
+      props.onChange(e);
     };
     const TextWidget = getWidget(CommonWidgetNames.TextWidget).value;
     return () => {
