@@ -1,4 +1,11 @@
-import { defineComponent, reactive, Ref, ref, watchEffect } from "vue";
+import {
+  defineComponent,
+  reactive,
+  Ref,
+  ref,
+  watchEffect,
+  shallowRef,
+} from "vue";
 import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";
 import demos from "./demos";
@@ -126,6 +133,18 @@ export default defineComponent({
     const handleDataChange = (v: string) => handleCodeChange("data", v);
     const handleUISchemaChange = (v: string) => handleCodeChange("uiSchema", v);
 
+    const contextRef: Ref<any> = ref();
+    const user = { name: "John Doe", age: 18 };
+    const shallUer = shallowRef(user);
+    const rUser = ref(user);
+    const changeShallowUser = () => {
+      shallUer.value.name = "123";
+      console.log(user);
+    };
+    const changeUser = () => {
+      rUser.value.name = "456";
+      console.log(user);
+    };
     return () => {
       const classes = classesRef.value;
       const selected = selectedRef.value;
@@ -133,6 +152,9 @@ export default defineComponent({
         // <StyleThemeProvider>
         // <VJSFThemeProvider  theme={theme as any}>
         <div class={classes.container}>
+          {rUser.value.name}-----{shallUer.value.name}
+          <button onClick={changeShallowUser}>changeShallowUser</button>
+          <button onClick={changeUser}>changeUser</button>
           <div class={classes.menu}>
             <h1>Vue3 JsonSchema Form</h1>
             <div>
@@ -178,6 +200,7 @@ export default defineComponent({
                   schema={demo.schema}
                   onChange={handleChange}
                   value={demo.data}
+                  contextRef={contextRef}
                 />
               </ThemeProvider>
               {/* <SchemaForm
@@ -187,6 +210,9 @@ export default defineComponent({
                 contextRef={methodRef}
                 value={demo.data}
               /> */}
+              <button onClick={() => contextRef.value.doValidate()}>
+                校验
+              </button>
             </div>
           </div>
         </div>

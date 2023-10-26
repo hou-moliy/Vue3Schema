@@ -783,3 +783,50 @@ Widgets
   },
 ];
 ```
+
+### 9-2 从父组件调用子组件在 setup 中声明的方法
+
+#### watch 和 watchEffect 的区别
+
+[链接参考](https://juejin.cn/post/7073757465908609038)
+
+##### watch
+
+- 具有一定的惰性 lazy 第一次页面展示的时候不会执行，只有数据变化的时候才会执行(需要立即执行，要设置 immediate: true)
+- 参数可以拿到当前值和原始值
+- 需要传递要侦听的内容
+- 可以侦听多个数据的变化，用一个侦听起承载
+
+##### watchEffect
+
+- 立即执行，没有惰性，页面的首次加载就会执行。
+- 没有过多的参数，只有一个回调函数
+- 自动检测内部代码，代码中有依赖就会执行
+- 不需要传递要侦听的内容，会自动感知代码依赖
+- 无法获取到原值，只能得到变化后的值
+- 异步的操作放在这里会更加合适
+
+### 9-3 实现 ajv 校验过程
+
+#### 什么是 shallowRef
+
+`shallowRef` 只会对对象进行浅层代理，这意味着如果对象的属性值是对象或数组，它们将不会被代理为深层响应式，而是保持为普通的引用。这意味着修改对象的属性值不会触发重新渲染，但修改对象本身的引用会触发重新渲染
+使用 `shallowRef` 主要是为了在某些情况下避免性能损失，例如当你知道对象的深层属性很少变动，或者不需要深层代理时，使用浅层代理可以提高性能。
+
+```ts
+const user = { name: "John Doe", age: 18 };
+const shallUer = shallowRef(user);
+const rUser = ref(user);
+const changeShallowUser = () => {
+  shallUer.value.name = "123";
+  console.log(user); // {name: '123', age: 18} 但是页面不重新渲染
+};
+const changeUser = () => {
+  rUser.value.name = "456";
+  console.log(user); // {name: '456', age: 18} 页面重新渲染
+};
+// dom
+{rUser.value.name}-----{shallUer.value.name}
+<button onClick={changeShallowUser}>changeShallowUser</button>
+<button onClick={changeUser}>changeUser</button>
+```

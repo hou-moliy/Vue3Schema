@@ -64,7 +64,6 @@ const schema = {
 };
 
 const validate = ajv.compile(schema);
-
 const data = {
   foo: 1,
   age: 1,
@@ -76,6 +75,7 @@ const data = {
 };
 
 const valid = validate(data);
+
 if (!valid) {
   console.log(validate.errors);
   // localize.zh(validate.errors);
