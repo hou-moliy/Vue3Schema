@@ -2,7 +2,8 @@ export default {
   name: "Demo",
   schema: {
     type: "string",
+    minLength: 10,
   },
   uiSchema: {},
-  default: 0,
+  default: "0",
 };

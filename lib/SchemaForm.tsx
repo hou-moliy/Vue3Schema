@@ -1,13 +1,26 @@
-import { PropType, defineComponent, provide, watch, Ref } from "vue";
+import {
+  PropType,
+  defineComponent,
+  provide,
+  watch,
+  Ref,
+  shallowRef,
+  watchEffect,
+} from "vue";
 import { Schema, Theme } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
+import Ajv, { Options } from "ajv";
 interface ContextRef {
   doValidate: () => {
     errors: any[];
     valid: boolean;
   };
 }
+const defaultAjvOptions: Options = {
+  allErrors: true,
+  // jsonPointers: true, // ajv6.0, 用这个来设置错误的dataPath的格式
+};
 export default defineComponent({
   props: {
     schema: {
@@ -24,6 +37,9 @@ export default defineComponent({
     contextRef: {
       type: Object as PropType<Ref<ContextRef | undefined>>,
     },
+    ajvOptions: {
+      type: Object as PropType<Options>,
+    },
   },
   name: "SchemaForm",
   setup(props, { slots, emit, attrs }) {
@@ -31,7 +47,13 @@ export default defineComponent({
       SchemaFormItems,
     };
     provide(SchemaFormContextKey, context);
-
+    const vaildatorRef: Ref<Ajv> = shallowRef() as any;
+    watchEffect(() => {
+      vaildatorRef.value = new Ajv({
+        ...defaultAjvOptions,
+        ...props.ajvOptions,
+      });
+    });
     watch(
       () => props.contextRef,
       () => {
@@ -39,9 +61,13 @@ export default defineComponent({
         if (props.contextRef) {
           props.contextRef.value = {
             doValidate() {
+              const valid = vaildatorRef.value.validate(
+                props.schema,
+                props.value,
+              );
               return {
-                errors: [],
-                valid: true,
+                errors: vaildatorRef.value.errors || [],
+                valid,
               };
             },
           };

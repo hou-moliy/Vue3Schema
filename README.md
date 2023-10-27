@@ -830,3 +830,5 @@ const changeUser = () => {
 <button onClick={changeShallowUser}>changeShallowUser</button>
 <button onClick={changeUser}>changeUser</button>
 ```
+
+### 9-4 转换错误信息到 errorSchema
