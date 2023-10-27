@@ -11,6 +11,7 @@ import { Schema, Theme } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
+import { validatorFormData } from "./validator";
 interface ContextRef {
   doValidate: () => {
     errors: any[];
@@ -40,6 +41,10 @@ export default defineComponent({
     ajvOptions: {
       type: Object as PropType<Options>,
     },
+    local: {
+      type: String,
+      default: "zh",
+    },
   },
   name: "SchemaForm",
   setup(props, { slots, emit, attrs }) {
@@ -61,14 +66,21 @@ export default defineComponent({
         if (props.contextRef) {
           props.contextRef.value = {
             doValidate() {
-              const valid = vaildatorRef.value.validate(
-                props.schema,
+              // const valid = vaildatorRef.value.validate(
+              //   props.schema,
+              //   props.value,
+              // );
+              // return {
+              //   errors: vaildatorRef.value.errors || [],
+              //   valid,
+              // };
+              const result = validatorFormData(
+                vaildatorRef.value,
                 props.value,
+                props.schema,
+                props.local,
               );
-              return {
-                errors: vaildatorRef.value.errors || [],
-                valid,
-              };
+              return result;
             },
           };
         }

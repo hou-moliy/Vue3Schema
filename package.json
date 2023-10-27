@@ -19,6 +19,7 @@
     "jsonpointer": "^5.0.1",
     "jss": "^10.10.0",
     "jss-preset-default": "^10.10.0",
+    "lodash.topath": "^4.5.2",
     "lodash.union": "^4.6.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
     "vue": "^3.2.13",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "@types/jest": "^27.0.1",
     "@types/json-schema-merge-allof": "^0.6.1",
+    "@types/lodash.topath": "^4.5.8",
     "@types/lodash.union": "^4.6.7",
     "@types/node": "^20.5.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
