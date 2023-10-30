@@ -17,12 +17,13 @@ export interface Schema {
   const?: any;
   format?: string;
   title?: string;
-  default?: any;
+  default?: any; // 默认值
   properties?: {
     [key: string]: Schema;
   };
   items?: Schema | Schema[] | SchemaRef;
   uniqueItems?: any;
+  customValidate?: (data: any, target: any) => void;
   dependencies?: {
     [key: string]: string[] | Schema | SchemaRef;
   };
@@ -31,6 +32,7 @@ export interface Schema {
   allOf?: Schema[];
   // TODO：uiSchema
   // vjsf?: VueJsonSchemaConfig
+  uiSchema?: any;
   required?: string[];
   enum?: (object | string | number)[]; //  enum支持的类型，对象，字符串，数字 联合类型
   enumNames?: any[];

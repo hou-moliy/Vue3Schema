@@ -45,6 +45,9 @@ export default defineComponent({
       type: String,
       default: "zh",
     },
+    customValidate: {
+      type: Function as PropType<(data: any, errors: any) => void>,
+    },
   },
   name: "SchemaForm",
   setup(props) {
@@ -82,6 +85,7 @@ export default defineComponent({
                 props.value,
                 props.schema,
                 props.local,
+                props.customValidate,
               );
               errorSchemaRef.value = result.errorSchema;
               return result;

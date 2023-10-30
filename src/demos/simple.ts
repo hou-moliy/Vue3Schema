@@ -53,6 +53,9 @@ export default {
       },
     },
   },
+  // customValidate(data: any, errors: any) {
+  //   console.log("customValidate", data, errors);
+  // },
   uiSchema: {
     // 样式
     title: "A registration form",
