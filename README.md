@@ -832,3 +832,5 @@ const changeUser = () => {
 ```
 
 ### 9-4 转换错误信息到 errorSchema
+
+### 9-5 把错误信息向下传递

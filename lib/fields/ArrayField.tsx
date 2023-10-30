@@ -157,7 +157,7 @@ export default defineComponent({
       SelectionWidgetNames.SelectionWidget,
     ).value;
     return () => {
-      const { schema, rootSchema, value } = props;
+      const { schema, rootSchema, value, errorSchema } = props;
       const SchemaFormItems = context.SchemaFormItems;
       // const SelectionWidget = context.theme.widgets.SelectionWidget;
       // 判断是否是数组
@@ -175,6 +175,7 @@ export default defineComponent({
               key={index}
               rootSchema={rootSchema}
               value={arr[index]}
+              errorSchema={errorSchema[index] || {}} // 如果没有就是空对象
               onChange={(v: any) => handleArrayItemChange(v, index)}
             />
           );
@@ -196,6 +197,7 @@ export default defineComponent({
                 schema={schema.items as Schema}
                 rootSchema={rootSchema}
                 value={v}
+                errorSchema={errorSchema[index] || {}}
                 onChange={(v: any) => handleArrayItemChange(v, index)}
               />
             </ArrayItemWrapper>
@@ -214,6 +216,7 @@ export default defineComponent({
             value={value}
             options={options}
             onChange={props.onChange}
+            errors={errorSchema.__errors}
           ></SelectionWidget>
         );
       }

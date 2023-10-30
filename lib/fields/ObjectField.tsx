@@ -31,6 +31,7 @@ export default defineComponent({
           rootSchema={rootSchema}
           value={curValue[k]}
           key={index}
+          errorSchema={props.errorSchema[k] || {}}
           onChange={(v: any) => handleObjectFieldChange(k, v)}
         />
       ));

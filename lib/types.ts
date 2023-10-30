@@ -1,5 +1,5 @@
 import { PropType, defineComponent, DefineComponent } from "vue";
-
+import { ErrorSchema } from "./validator";
 export enum SchemaTypes {
   "NUMBER" = "number",
   "INTEGER" = "integer",
@@ -62,6 +62,10 @@ export const FiledPropsDefine = {
     type: Function as PropType<(v: any) => void>,
     required: true,
   },
+  errorSchema: {
+    type: Object as PropType<ErrorSchema>,
+    required: true,
+  },
 } as const; // as const 变成只读
 
 // 定义组件类型
@@ -80,6 +84,9 @@ export const commonWidgetPropsDefine = {
   onChange: {
     type: Function as PropType<(v: any) => void>,
     required: true,
+  },
+  errors: {
+    type: Array as PropType<string[]>,
   },
 } as const; // as const 变成只读
 //  widget中SelectWidget的props定义

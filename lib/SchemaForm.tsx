@@ -7,11 +7,11 @@ import {
   shallowRef,
   watchEffect,
 } from "vue";
-import { Schema, Theme } from "./types";
+import { Schema } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
-import { validatorFormData } from "./validator";
+import { validatorFormData, ErrorSchema } from "./validator";
 interface ContextRef {
   doValidate: () => {
     errors: any[];
@@ -47,12 +47,15 @@ export default defineComponent({
     },
   },
   name: "SchemaForm",
-  setup(props, { slots, emit, attrs }) {
+  setup(props) {
     const context = {
       SchemaFormItems,
     };
     provide(SchemaFormContextKey, context);
+    // 用来存储ajv实例的
     const vaildatorRef: Ref<Ajv> = shallowRef() as any;
+    // 用来存储错误信息
+    const errorSchemaRef: Ref<ErrorSchema> = shallowRef({});
     watchEffect(() => {
       vaildatorRef.value = new Ajv({
         ...defaultAjvOptions,
@@ -80,6 +83,7 @@ export default defineComponent({
                 props.schema,
                 props.local,
               );
+              errorSchemaRef.value = result.errorSchema;
               return result;
             },
           };
@@ -91,7 +95,13 @@ export default defineComponent({
     );
 
     return () => {
-      return <SchemaFormItems {...props} rootSchema={props.schema} />;
+      return (
+        <SchemaFormItems
+          {...props}
+          rootSchema={props.schema}
+          errorSchema={errorSchemaRef.value || {}}
+        />
+      );
     };
   },
 });
