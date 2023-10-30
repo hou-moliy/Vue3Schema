@@ -15,18 +15,23 @@ export default {
       },
     },
   },
-  customValidate(data: any, errors: any) {
-    // 都是必填项
-    if (!data.pass1) {
-      errors.pass1.addError("必填");
-    }
-    if (!data.pass2) {
-      errors.pass2.addError("必填");
-    }
+  async customValidate(data: any, errors: any) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // 都是必填项
+        if (!data.pass1) {
+          errors.pass1.addError("必填");
+        }
+        if (!data.pass2) {
+          errors.pass2.addError("必填");
+        }
 
-    if (data.pass1 !== data.pass2) {
-      errors.pass2.addError("密码必须相同");
-    }
+        if (data.pass1 !== data.pass2) {
+          errors.pass2.addError("密码必须相同");
+        }
+        resolve("");
+      }, 2000);
+    });
   },
   uiSchema: {},
   default: 1,

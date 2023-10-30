@@ -13,10 +13,10 @@ import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
 import { validatorFormData, ErrorSchema } from "./validator";
 interface ContextRef {
-  doValidate: () => {
+  doValidate: () => Promise<{
     errors: any[];
     valid: boolean;
-  };
+  }>;
 }
 const defaultAjvOptions: Options = {
   allErrors: true,
@@ -71,16 +71,8 @@ export default defineComponent({
         console.log("contextRef change");
         if (props.contextRef) {
           props.contextRef.value = {
-            doValidate() {
-              // const valid = vaildatorRef.value.validate(
-              //   props.schema,
-              //   props.value,
-              // );
-              // return {
-              //   errors: vaildatorRef.value.errors || [],
-              //   valid,
-              // };
-              const result = validatorFormData(
+            async doValidate() {
+              const result = await validatorFormData(
                 vaildatorRef.value,
                 props.value,
                 props.schema,
