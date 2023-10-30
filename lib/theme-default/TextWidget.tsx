@@ -1,8 +1,7 @@
 import { defineComponent } from "vue";
-import { commonWidgetPropsDefine } from "../types";
-import FormItem from "./FormItem";
-
-const TextWidget: any = defineComponent({
+import { commonWidgetPropsDefine, CommonWidgetDefine } from "../types";
+import { WithFormItem } from "./FormItem";
+const widget: CommonWidgetDefine = defineComponent({
   name: "TextWidget",
   props: commonWidgetPropsDefine,
   setup(props) {
@@ -14,15 +13,11 @@ const TextWidget: any = defineComponent({
     };
     return () => {
       return (
-        <FormItem {...props}>
-          <input
-            type="text"
-            value={props.value as any}
-            onInput={handleChange}
-          />
-        </FormItem>
+        <input type="text" value={props.value as any} onInput={handleChange} />
       );
     };
   },
-});
+}) as CommonWidgetDefine;
+
+const TextWidget: CommonWidgetDefine = WithFormItem(widget);
 export default TextWidget;

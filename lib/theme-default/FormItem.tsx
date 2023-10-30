@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { commonWidgetPropsDefine } from "../types";
+import { commonWidgetPropsDefine, CommonWidgetDefine } from "../types";
 import { createUseStyles } from "vue-jss";
 const useStyles = createUseStyles({
   container: {},
@@ -14,7 +14,7 @@ const useStyles = createUseStyles({
     padding: "0 0 0 20px",
   },
 });
-export default defineComponent({
+const FormItem = defineComponent({
   name: "FormItem",
   props: commonWidgetPropsDefine,
   setup(props, { slots }) {
@@ -38,3 +38,23 @@ export default defineComponent({
     };
   },
 });
+export default FormItem;
+
+// HOC: higher order component
+// attrs: 传递给组件的属性 , props: 组件自身的属性
+// 一般attrs是在，我们没有定义这个props,但是又想要传递给组件的属性
+export function WithFormItem(WidgetComponent: any) {
+  return defineComponent({
+    name: `Wrapped${WidgetComponent.name}`,
+    props: commonWidgetPropsDefine,
+    setup(props, { attrs }) {
+      return () => {
+        return (
+          <FormItem {...props}>
+            <WidgetComponent {...props} {...attrs} />
+          </FormItem>
+        );
+      };
+    },
+  }) as any;
+}

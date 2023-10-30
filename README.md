@@ -836,3 +836,12 @@ const changeUser = () => {
 ### 9-5 把错误信息向下传递
 
 ### 9-6 实现 FormItem 组件来展示 label 和错误信息
+
+### 9-7 通过高阶组件抽离 FormItem 逻辑
+
+HOC: higher order component
+
+attrs: 传递给组件的属性 , props: 组件自身的属性
+一般 attrs 是在，我们没有定义这个 props,但是又想要传递给组件的属性
+
+[在 vue3 中使用 高阶组件（HOC） - 实战篇](https://juejin.cn/post/7132417492235845645)

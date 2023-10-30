@@ -1,6 +1,7 @@
 import { defineComponent, ref, watch } from "vue";
 import { selectWidgetPropsDefine, SelectionWidgetDefine } from "../types";
-const SelectionWidget: any = defineComponent({
+import { WithFormItem } from "./FormItem";
+const widget: SelectionWidgetDefine = defineComponent({
   name: "SelectionWidget",
   props: selectWidgetPropsDefine,
   setup(props) {
@@ -32,5 +33,6 @@ const SelectionWidget: any = defineComponent({
       );
     };
   },
-});
+}) as SelectionWidgetDefine;
+const SelectionWidget: any = WithFormItem(widget);
 export default SelectionWidget;

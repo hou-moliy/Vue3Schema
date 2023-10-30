@@ -25,6 +25,7 @@ export default {
           },
           {
             type: "number",
+            title: "staticArray-2-Number",
           },
         ],
       },
@@ -48,6 +49,7 @@ export default {
           type: "string",
           enum: ["a", "b", "c"],
         },
+        title: "multipleArray",
       },
     },
   },
