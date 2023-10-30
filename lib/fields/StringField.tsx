@@ -11,7 +11,14 @@ export default defineComponent({
     };
     const TextWidget = getWidget(CommonWidgetNames.TextWidget).value;
     return () => {
-      return <TextWidget {...props} onChange={handleChange} />;
+      const { rootSchema, errorSchema, ...rest } = props;
+      return (
+        <TextWidget
+          {...rest}
+          errors={errorSchema.__errors}
+          onChange={handleChange}
+        />
+      );
     };
   },
 });

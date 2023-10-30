@@ -17,10 +17,16 @@ export default defineComponent({
     return () => {
       // 这样写是为了让 NumberWidget 可以响应式更新
       const NumberWidget = NumberWidgetRef.value;
-      const { schema, rootSchema, ...rest } = props;
+      const { rootSchema, errorSchema, ...rest } = props;
       // ...rest 会把 props 中的 onChange 也传递给 NumberWidget
       // 但是 NumberWidget 不需要 onChange，所以要把 onChange 去掉
-      return <NumberWidget {...rest} onChange={handleChange} />;
+      return (
+        <NumberWidget
+          {...rest}
+          errors={errorSchema.__errors}
+          onChange={handleChange}
+        />
+      );
     };
   },
 });

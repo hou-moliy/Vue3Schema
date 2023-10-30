@@ -15,7 +15,7 @@ export default defineComponent({
       return retrieveSchema(schema, rootSchema, value);
     });
     return () => {
-      const { schema } = props;
+      const { schema, errorSchema } = props;
       const retrievedSchema = retrievedSchemaRef.value;
       // TODO: 如果type没有指定，我们需要猜测这个type
       const type = schema?.type;
@@ -36,7 +36,13 @@ export default defineComponent({
         default:
           console.warn(`${type} is not supported`);
       }
-      return <Component {...props} schema={retrievedSchema} />;
+      return (
+        <Component
+          {...props}
+          schema={retrievedSchema}
+          errorSchema={errorSchema}
+        />
+      );
     };
   },
 });

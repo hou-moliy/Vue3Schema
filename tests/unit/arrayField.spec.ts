@@ -1,5 +1,10 @@
 import { mount } from "@vue/test-utils";
-import { NumberField, StringField, ArrayField, Selection } from "../../lib";
+import {
+  NumberField,
+  StringField,
+  ArrayField,
+  SelectionWidget,
+} from "../../lib";
 import themeDefault from "../../lib/theme-default";
 import TestComponent from "./utils/TestComponent";
 
@@ -93,7 +98,7 @@ describe("arrayField", () => {
       },
     });
     const arrField = wrapper.findComponent(ArrayField);
-    const selectField = wrapper.findComponent(Selection); // findComponent返回第一个匹配的 Vue 组件的
+    const selectField = wrapper.findComponent(SelectionWidget); // findComponent返回第一个匹配的 Vue 组件的
     expect(arrField.exists()).toBeTruthy();
     expect(selectField.exists()).toBeTruthy();
     arrField.props("onChange")(["c"]);

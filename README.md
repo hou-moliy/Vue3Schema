@@ -834,3 +834,5 @@ const changeUser = () => {
 ### 9-4 转换错误信息到 errorSchema
 
 ### 9-5 把错误信息向下传递
+
+### 9-6 实现 FormItem 组件来展示 label 和错误信息

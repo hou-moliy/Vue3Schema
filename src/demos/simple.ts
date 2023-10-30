@@ -70,7 +70,7 @@ export default {
     // 默认值
     firstName: "Chuck",
     lastName: "Norris",
-    telephone: "123-456-7890",
+    telephone: "123",
     staticArray: ["staticArray", 2],
     singleTypeArray: [
       {

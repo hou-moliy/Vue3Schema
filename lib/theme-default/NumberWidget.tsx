@@ -5,7 +5,6 @@ const NumberWidget: any = defineComponent({
   props: commonWidgetPropsDefine,
   setup(props) {
     const handleChange = (e: any) => {
-      console.log(e);
       const value = e.target.value;
       e.target.value = props.value;
       props.onChange(value);

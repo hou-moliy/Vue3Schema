@@ -168,7 +168,6 @@ export default defineComponent({
         const items: Schema[] = schema.items as any;
         const arr = Array.isArray(value) ? value : [];
         return items.map((s: Schema, index: number) => {
-          console.log(s, "sss");
           return (
             <SchemaFormItems
               schema={s}
@@ -217,6 +216,7 @@ export default defineComponent({
             options={options}
             onChange={props.onChange}
             errors={errorSchema.__errors}
+            schema={schema}
           ></SelectionWidget>
         );
       }
