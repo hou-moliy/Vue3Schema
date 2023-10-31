@@ -16,7 +16,7 @@ export default {
     },
   },
   async customValidate(data: any, errors: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         // 都是必填项
         if (!data.pass1) {
@@ -25,7 +25,6 @@ export default {
         if (!data.pass2) {
           errors.pass2.addError("必填");
         }
-
         if (data.pass1 !== data.pass2) {
           errors.pass2.addError("密码必须相同");
         }

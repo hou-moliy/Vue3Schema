@@ -24,7 +24,7 @@ function toErrorSchema(errors: TransformedErrorObject[]) {
 
   return errors.reduce((errorSchema, error) => {
     const { property, message } = error;
-    const path = toPath(property); // /obj/a -> [obj, a]
+    const path = toPath(property); // toPath('obj.a.b') => ['obj', 'a', 'b'] 而/obj/a/b 是不能转换=> ['obj.a.b']
     let parent = errorSchema;
 
     // If the property is at the root (.level1) then toPath creates
@@ -121,6 +121,7 @@ export async function validatorFormData(
   const proxy = createErrorProxy();
   await customValidate(formData, proxy);
   const newErrorSchema = mergeObjects(errorSchema, proxy);
+  console.log("newErrorSchema", newErrorSchema);
   return {
     errors,
     errorSchema: newErrorSchema,

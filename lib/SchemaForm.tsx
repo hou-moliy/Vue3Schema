@@ -6,6 +6,7 @@ import {
   Ref,
   shallowRef,
   watchEffect,
+  ref,
 } from "vue";
 import { Schema } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
@@ -20,7 +21,7 @@ interface ContextRef {
 }
 const defaultAjvOptions: Options = {
   allErrors: true,
-  // jsonPointers: true, // ajv6.0, 用这个来设置错误的dataPath的格式
+  jsPropertySyntax: true,
 };
 export default defineComponent({
   props: {
@@ -66,21 +67,60 @@ export default defineComponent({
       });
     });
     watch(
+      () => props.value,
+      () => {
+        if (validateResolveRef.value) {
+          // 如果有校验的promise 就执行校验
+          handleDoValidate();
+        }
+      },
+      {
+        deep: true,
+      },
+    );
+    // 用来存储校验的promise
+    const validateResolveRef = ref();
+    // 用来存储当前的校验的index
+    const validateIndex = ref(0);
+    const handleDoValidate = async () => {
+      console.log("start  validate");
+      const index = (validateIndex.value += 1);
+      console.log("index", index);
+      console.log("validateIndex.value", validateIndex.value);
+      const result = await validatorFormData(
+        vaildatorRef.value,
+        props.value,
+        props.schema,
+        props.local,
+        props.customValidate,
+      );
+      // 如果不是最后一次校验，就不用处理
+      // 为什么validateIndex.value === index?
+      // 因为validateIndex.value是响应式的，所以在执行到这里的时候，validateIndex.value可能已经变化了
+      // 所以需要判断是否是最后一次校验 也就是validateIndex.value === index
+      console.log(
+        "validateIndex.value === index",
+        validateIndex.value === index,
+      );
+      if (index !== validateIndex.value) return;
+      console.log("result", result);
+      console.log("end validate");
+      errorSchemaRef.value = result.errorSchema;
+      validateResolveRef.value(result);
+      validateResolveRef.value = undefined;
+    };
+    watch(
       () => props.contextRef,
       () => {
         console.log("contextRef change");
         if (props.contextRef) {
           props.contextRef.value = {
-            async doValidate() {
-              const result = await validatorFormData(
-                vaildatorRef.value,
-                props.value,
-                props.schema,
-                props.local,
-                props.customValidate,
-              );
-              errorSchemaRef.value = result.errorSchema;
-              return result;
+            doValidate() {
+              return new Promise((resolve) => {
+                // 用来存储当前的校验的promise
+                validateResolveRef.value = resolve;
+                handleDoValidate();
+              });
             },
           };
         }
