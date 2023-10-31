@@ -8,7 +8,7 @@ import {
   watchEffect,
   ref,
 } from "vue";
-import { Schema } from "./types";
+import { Schema, UISchema } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
@@ -48,6 +48,9 @@ export default defineComponent({
     },
     customValidate: {
       type: Function as PropType<(data: any, errors: any) => void>,
+    },
+    uiSchema: {
+      type: Object as PropType<UISchema>,
     },
   },
   name: "SchemaForm",
@@ -131,9 +134,13 @@ export default defineComponent({
     );
 
     return () => {
+      const { schema, value, uiSchema } = props;
       return (
         <SchemaFormItems
-          {...props}
+          schema={schema}
+          value={value}
+          onChange={props.onChange}
+          uiSchema={uiSchema || {}}
           rootSchema={props.schema}
           errorSchema={errorSchemaRef.value || {}}
         />

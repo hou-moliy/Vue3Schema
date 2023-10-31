@@ -157,7 +157,7 @@ export default defineComponent({
       SelectionWidgetNames.SelectionWidget,
     ).value;
     return () => {
-      const { schema, rootSchema, value, errorSchema } = props;
+      const { schema, rootSchema, value, errorSchema, uiSchema } = props;
       const SchemaFormItems = context.SchemaFormItems;
       // const SelectionWidget = context.theme.widgets.SelectionWidget;
       // 判断是否是数组
@@ -168,11 +168,16 @@ export default defineComponent({
         const items: Schema[] = schema.items as any;
         const arr = Array.isArray(value) ? value : [];
         return items.map((s: Schema, index: number) => {
+          const itemsUiSchema = uiSchema.items;
+          const us = Array.isArray(itemsUiSchema)
+            ? itemsUiSchema[index] || {}
+            : itemsUiSchema || {};
           return (
             <SchemaFormItems
               schema={s}
               key={index}
               rootSchema={rootSchema}
+              uiSchema={us}
               value={arr[index]}
               errorSchema={errorSchema[index] || {}} // 如果没有就是空对象
               onChange={(v: any) => handleArrayItemChange(v, index)}
@@ -195,6 +200,7 @@ export default defineComponent({
               <SchemaFormItems
                 schema={schema.items as Schema}
                 rootSchema={rootSchema}
+                uiSchema={(uiSchema.items as any) || {}}
                 value={v}
                 errorSchema={errorSchema[index] || {}}
                 onChange={(v: any) => handleArrayItemChange(v, index)}

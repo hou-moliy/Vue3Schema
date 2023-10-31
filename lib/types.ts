@@ -53,6 +53,10 @@ export const FiledPropsDefine = {
     type: Object as PropType<Schema>,
     required: true,
   },
+  uiSchema: {
+    type: Object as PropType<UISchema>,
+    required: true,
+  },
   rootSchema: {
     type: Object as PropType<Schema>,
     required: true,
@@ -126,3 +130,10 @@ export interface Theme {
     [CommonWidgetNames.NumberWidget]: CommonWidgetDefine;
   };
 }
+export type UISchema = {
+  widget?: string | CommonWidgetDefine; // string是为了兼容内置的widget组件名称，CommonWidgetDefine是为了兼容自定义的组件
+  properties?: {
+    [key: string]: UISchema; // 递归
+  };
+  items?: UISchema | UISchema[];
+};
