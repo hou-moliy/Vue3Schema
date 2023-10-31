@@ -5,6 +5,7 @@ import {
   ref,
   watchEffect,
   shallowRef,
+  watch,
 } from "vue";
 import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";
@@ -116,6 +117,7 @@ export default defineComponent({
         demo.customValidate = d.customValidate;
       }
     });
+
     const methodRef: Ref<any> = ref();
     const classesRef = useStyles();
     const handleChange = (v: any) => {
@@ -168,7 +170,7 @@ export default defineComponent({
           <button onClick={changeShallowUser}>changeShallowUser</button>
           <button onClick={changeUser}>changeUser</button>
           <div class={classes.menu}>
-            <h1>Vue3 JsonSchema Form</h1>
+            {/* <h1>Vue3 JsonSchema Form</h1> */}
             <div>
               {demos.map((demo, index) => (
                 <button

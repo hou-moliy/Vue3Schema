@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { commonWidgetPropsDefine, CommonWidgetDefine } from "../types";
+import { commonWidgetPropsDefine } from "../types";
 import { createUseStyles } from "vue-jss";
 const useStyles = createUseStyles({
   container: {},

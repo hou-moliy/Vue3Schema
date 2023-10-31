@@ -1,3 +1,4 @@
+import PasswordWidget from "@/components/Custom/PasswordWidget";
 export default {
   name: "Demo",
   schema: {
@@ -32,6 +33,14 @@ export default {
       }, 2000);
     });
   },
-  uiSchema: {},
-  default: 1,
+  uiSchema: {
+    properties: {
+      pass1: {
+        widget: PasswordWidget,
+      },
+    },
+  },
+  default: {
+    pass1: "1234567890",
+  },
 };
