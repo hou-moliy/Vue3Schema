@@ -93,6 +93,7 @@ export default defineComponent({
         ...defaultAjvOptions,
         ...props.ajvOptions,
       });
+      // 创建ajv实例的时候添加自定义校验规则，让ajv校验
       if (props.customFormats) {
         const customFormats = Array.isArray(props.customFormats)
           ? props.customFormats
@@ -119,6 +120,8 @@ export default defineComponent({
         return {};
       }
     });
+    console.log(formatMapRef, "formatMapRef");
+
     watch(
       () => props.value,
       () => {
@@ -187,6 +190,8 @@ export default defineComponent({
       SchemaFormItems,
       formatMapRef,
     };
+
+    // 使用provide向下传递组件
     provide(SchemaFormContextKey, context);
 
     return () => {

@@ -11,7 +11,7 @@ export default defineComponent({
     };
     // 使用computed来获取TextWidget，这样TextWidget的值就是响应式的
     const TextWidgetRef = computed(() => {
-      const widgetRef = getWidget(CommonWidgetNames.TextWidget, props.uiSchema);
+      const widgetRef = getWidget(CommonWidgetNames.TextWidget, props);
       return widgetRef.value;
     });
     const TextWidget = TextWidgetRef.value;

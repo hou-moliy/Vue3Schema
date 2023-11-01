@@ -13,6 +13,7 @@ import demos from "./demos";
 import SchemaForm from "../lib";
 import themeDefault from "../lib/theme-default";
 import { ThemeProvider } from "../lib/index";
+import customFormat from "./plugins/index";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
 type Schema = any;
@@ -221,6 +222,7 @@ export default defineComponent({
                   contextRef={contextRef}
                   customValidate={demo.customValidate}
                   inline={demo.inline}
+                  customFormats={customFormat}
                 />
               </ThemeProvider>
               {/* <SchemaForm

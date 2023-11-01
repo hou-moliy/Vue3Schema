@@ -14,9 +14,14 @@ export default {
         minLength: 10,
         title: "re try password",
       },
+      color: {
+        type: "string",
+        format: "color",
+        title: "Input Color",
+      },
     },
   },
-  inline: true,
+  // inline: true,
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -45,11 +50,6 @@ export default {
           color: "red",
           fontSize: "20px",
         },
-      },
-      color: {
-        type: "string",
-        format: "color",
-        title: "Input Color",
       },
     },
   },
