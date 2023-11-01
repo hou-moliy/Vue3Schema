@@ -46,6 +46,11 @@ export default {
           fontSize: "20px",
         },
       },
+      color: {
+        type: "string",
+        format: "color",
+        title: "Input Color",
+      },
     },
   },
   default: {

@@ -1,5 +1,6 @@
 import { PropType, defineComponent, DefineComponent } from "vue";
 import { ErrorSchema } from "./validator";
+import { FormatDefinition } from "ajv";
 export enum SchemaTypes {
   "NUMBER" = "number",
   "INTEGER" = "integer",
@@ -147,3 +148,9 @@ export type UISchema = {
 } & {
   [key: string]: any;
 }; // 表示除了上面我们写的widget,properties,items之外的其他属性都可以写
+
+export interface CustomFormat {
+  name: string;
+  definition: FormatDefinition<string | number>; // FormatDefinition是ajv中的一个类型,表示一个格式化的定义 https://ajv.js.org/guide/formats.html#custom-formats
+  component: CommonWidgetDefine;
+}

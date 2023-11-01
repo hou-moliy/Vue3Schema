@@ -7,8 +7,9 @@ import {
   shallowRef,
   watchEffect,
   ref,
+  computed,
 } from "vue";
-import { Schema, UISchema } from "./types";
+import { Schema, UISchema, CustomFormat, CommonWidgetDefine } from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
@@ -63,6 +64,7 @@ export default defineComponent({
       default: "zh",
     },
     customValidate: {
+      // 自定义校验函数
       type: Function as PropType<(data: any, errors: any) => void>,
     },
     uiSchema: {
@@ -73,15 +75,15 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    customFormats: {
+      // 自定义校验规则
+      type: [Array, Object] as PropType<CustomFormat[] | CustomFormat>,
+    },
   },
   name: "SchemaForm",
   setup(props) {
     const classesRef = useStyles();
 
-    const context = {
-      SchemaFormItems,
-    };
-    provide(SchemaFormContextKey, context);
     // 用来存储ajv实例的
     const vaildatorRef: Ref<Ajv> = shallowRef() as any;
     // 用来存储错误信息
@@ -91,6 +93,31 @@ export default defineComponent({
         ...defaultAjvOptions,
         ...props.ajvOptions,
       });
+      if (props.customFormats) {
+        const customFormats = Array.isArray(props.customFormats)
+          ? props.customFormats
+          : [props.customFormats];
+        customFormats.forEach((format) => {
+          // addFormat方法是ajv提供的，用来添加自定义校验规则的
+          vaildatorRef.value.addFormat(format.name, format.definition);
+        });
+      }
+    });
+    const formatMapRef = computed(() => {
+      if (props.customFormats) {
+        const customFormats = Array.isArray(props.customFormats)
+          ? props.customFormats
+          : [props.customFormats];
+        // 将自定义校验规则转换成map/map的key是name，value是component,
+        // reduce是数组的方法，用来将数组转换成其他类型的数据,
+        // 第一个参数是回调函数，第二个参数是初始值
+        return customFormats.reduce((result, format) => {
+          result[format.name] = format.component;
+          return result;
+        }, {} as { [key: string]: CommonWidgetDefine });
+      } else {
+        return {};
+      }
     });
     watch(
       () => props.value,
@@ -155,6 +182,12 @@ export default defineComponent({
         immediate: true,
       },
     );
+
+    const context = {
+      SchemaFormItems,
+      formatMapRef,
+    };
+    provide(SchemaFormContextKey, context);
 
     return () => {
       const { schema, value, uiSchema, inline, onChange } = props;

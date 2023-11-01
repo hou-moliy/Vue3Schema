@@ -872,4 +872,25 @@ Widgets
 
 例如颜色，字体大小等，核心之外的属性，可以使用 options 传递
 uiSchema 新增 style 字段，里面设置组件的 css 样式。还可以新增其他的字段，在 field 的 props 新增 options,并传递给 widget,
-在 widget 中对自己想要的字段进行处理，达到想要的效果。
+在 widget 中对自己想要的字段进行处理，达到想要的效果。例如 showPassword,来实现密码的显示
+
+### 10-4 实现自定义 format 的自定义渲染
+
+```ts
+const formatMapRef = computed(() => {
+  if (props.customFormats) {
+    const customFormats = Array.isArray(props.customFormats)
+      ? props.customFormats
+      : [props.customFormats];
+    // 将自定义校验规则转换成map/map的key是name，value是component,
+    // reduce是数组的方法，用来将数组转换成其他类型的数据,
+    // 第一个参数是回调函数，第二个参数是初始值
+    return customFormats.reduce((result, format) => {
+      result[format.name] = format.component;
+      return result;
+    }, {} as { [key: string]: CommonWidgetDefine });
+  } else {
+    return {};
+  }
+});
+```
