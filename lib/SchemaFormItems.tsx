@@ -5,11 +5,20 @@ import NumberField from "./fields/NumberField";
 import ObjectField from "./fields/ObjectField";
 import ArrayField from "./fields/ArrayField";
 import { retrieveSchema } from "./utils";
-
+import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
+const useStyles = createUseStyles({
+  item: {
+    "& + &": {
+      marginLeft: 10, // 10px
+    },
+  },
+});
 export default defineComponent({
   props: FiledPropsDefine,
   name: "SchemaFormItems",
   setup(props, { slots, emit, attrs }) {
+    const classesRef = useStyles();
+
     const retrievedSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props;
       return retrieveSchema(schema, rootSchema, value);
@@ -36,12 +45,17 @@ export default defineComponent({
         default:
           console.warn(`${type} is not supported`);
       }
+      console.log("SchemaFormItems", props.inline);
+
       return (
+        // <div class={inline ? classesRef.value.item : ""}>
         <Component
           {...props}
           schema={retrievedSchema}
           errorSchema={errorSchema}
+          class={props.inline ? classesRef.value.item : ""}
         />
+        // </div>
       );
     };
   },

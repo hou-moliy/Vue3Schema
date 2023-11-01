@@ -867,3 +867,9 @@ Widgets
 新增了 uiSchema
 
 ### 10-2 使用 widget 字段实现自定义渲染
+
+### 10-3 uiSchema 更多的使用场景扩展
+
+例如颜色，字体大小等，核心之外的属性，可以使用 options 传递
+uiSchema 新增 style 字段，里面设置组件的 css 样式。还可以新增其他的字段，在 field 的 props 新增 options,并传递给 widget,
+在 widget 中对自己想要的字段进行处理，达到想要的效果。

@@ -47,7 +47,6 @@ export const getWidget = <T extends SelectionWidgetNames | CommonWidgetNames>(
   }
 
   if (uiSchema?.widget && isObject(uiSchema.widget)) {
-    debugger;
     return ref(uiSchema.widget as CommonWidgetDefine);
   }
 

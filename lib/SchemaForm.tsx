@@ -13,6 +13,22 @@ import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
 import { validatorFormData, ErrorSchema } from "./validator";
+import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
+const useStyles = createUseStyles({
+  // 写样式，字段就相当于class名
+  inline: {
+    display: "flex",
+    justifyContent: "flex-start",
+    width: "100%",
+    margin: "0 auto",
+  },
+  item: {
+    "& + &": {
+      marginLeft: 10, // 10px
+    },
+  },
+});
+
 interface ContextRef {
   doValidate: () => Promise<{
     errors: any[];
@@ -52,9 +68,16 @@ export default defineComponent({
     uiSchema: {
       type: Object as PropType<UISchema>,
     },
+    inline: {
+      // 是否是行内表单
+      type: Boolean,
+      default: false,
+    },
   },
   name: "SchemaForm",
   setup(props) {
+    const classesRef = useStyles();
+
     const context = {
       SchemaFormItems,
     };
@@ -134,16 +157,19 @@ export default defineComponent({
     );
 
     return () => {
-      const { schema, value, uiSchema } = props;
+      const { schema, value, uiSchema, inline, onChange } = props;
       return (
-        <SchemaFormItems
-          schema={schema}
-          value={value}
-          onChange={props.onChange}
-          uiSchema={uiSchema || {}}
-          rootSchema={props.schema}
-          errorSchema={errorSchemaRef.value || {}}
-        />
+        <div class={inline ? classesRef.value.inline : ""}>
+          <SchemaFormItems
+            schema={schema}
+            value={value}
+            onChange={onChange}
+            uiSchema={uiSchema || {}}
+            rootSchema={schema}
+            errorSchema={errorSchemaRef.value || {}}
+            inline={inline}
+          />
+        </div>
       );
     };
   },

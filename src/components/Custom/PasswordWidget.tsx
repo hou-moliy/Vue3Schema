@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import {
   commonWidgetPropsDefine,
   CommonWidgetDefine,
@@ -9,15 +9,17 @@ const widget: CommonWidgetDefine = defineComponent({
   props: commonWidgetPropsDefine,
   setup(props) {
     const handleChange = (e: any) => {
-      console.log(e);
       const value = e.target.value;
       e.target.value = props.value;
       props.onChange(value);
     };
+    const showPasswordRef = computed(() => {
+      return props.options?.showPassword || false;
+    });
     return () => {
       return (
         <input
-          type="password"
+          type={showPasswordRef.value ? "text" : "password"}
           value={props.value as any}
           onInput={handleChange}
         />

@@ -72,6 +72,10 @@ export const FiledPropsDefine = {
     type: Object as PropType<ErrorSchema>,
     required: true,
   },
+  inline: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
 } as const; // as const 变成只读
 
 // 定义组件类型
@@ -97,6 +101,10 @@ export const commonWidgetPropsDefine = {
   schema: {
     type: Object as PropType<Schema>,
     required: true,
+  },
+  options: {
+    // 任意的属性都可以写这个里面
+    type: Object as PropType<{ [key: string]: any }>,
   },
 } as const; // as const 变成只读
 //  widget中SelectWidget的props定义
@@ -136,4 +144,6 @@ export type UISchema = {
     [key: string]: UISchema; // 递归
   };
   items?: UISchema | UISchema[];
-};
+} & {
+  [key: string]: any;
+}; // 表示除了上面我们写的widget,properties,items之外的其他属性都可以写

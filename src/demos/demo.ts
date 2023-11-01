@@ -1,4 +1,4 @@
-import PasswordWidget from "@/components/Custom/PasswordWidget";
+import PasswordWidget from "../components/Custom/PasswordWidget";
 export default {
   name: "Demo",
   schema: {
@@ -16,6 +16,7 @@ export default {
       },
     },
   },
+  inline: true,
   async customValidate(data: any, errors: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -37,10 +38,18 @@ export default {
     properties: {
       pass1: {
         widget: PasswordWidget,
+        showPassword: false, // 是否明文显示密码
+      },
+      pass2: {
+        style: {
+          color: "red",
+          fontSize: "20px",
+        },
       },
     },
   },
   default: {
     pass1: "1234567890",
+    pass2: "1234567890",
   },
 };

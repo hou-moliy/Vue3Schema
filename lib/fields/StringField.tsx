@@ -11,12 +11,14 @@ export default defineComponent({
     };
     // 使用computed来获取TextWidget，这样TextWidget的值就是响应式的
     const TextWidgetRef = computed(() => {
-      console.log(props.uiSchema, "props.uiSchema");
       const widgetRef = getWidget(CommonWidgetNames.TextWidget, props.uiSchema);
       return widgetRef.value;
     });
     const TextWidget = TextWidgetRef.value;
-    console.log(TextWidget, "TextWidget");
+    const widgetOptionsRef = computed(() => {
+      const { widget, properties, items, ...rest } = props.uiSchema;
+      return rest;
+    });
     return () => {
       const { rootSchema, errorSchema, ...rest } = props;
       return (
@@ -24,6 +26,7 @@ export default defineComponent({
           {...rest}
           errors={errorSchema.__errors}
           onChange={handleChange}
+          options={widgetOptionsRef.value}
         />
       );
     };

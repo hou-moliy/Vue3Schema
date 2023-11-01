@@ -87,6 +87,7 @@ interface DataType {
   dataCode: string;
   uiSchemaCode: string;
   customValidate?: (d: any, e: any) => void;
+  inline?: boolean;
 }
 
 export default defineComponent({
@@ -101,6 +102,7 @@ export default defineComponent({
       dataCode: "",
       uiSchemaCode: "",
       customValidate: undefined,
+      inline: false,
     });
 
     watchEffect(() => {
@@ -112,6 +114,7 @@ export default defineComponent({
       demo.schemaCode = toJson(d.schema);
       demo.dataCode = toJson(d.default);
       demo.uiSchemaCode = toJson(d.uiSchema);
+      demo.inline = d.inline;
       // 判断是否有自定义校验 有就赋值 没有就undefined 用来传给SchemaForm
       if (Object.prototype.hasOwnProperty.call(d, "customValidate")) {
         demo.customValidate = d.customValidate;
@@ -217,6 +220,7 @@ export default defineComponent({
                   value={demo.data}
                   contextRef={contextRef}
                   customValidate={demo.customValidate}
+                  inline={demo.inline}
                 />
               </ThemeProvider>
               {/* <SchemaForm

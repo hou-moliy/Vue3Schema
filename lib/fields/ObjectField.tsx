@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 
 import { FiledPropsDefine } from "../types";
 import { useVJSFContext } from "../context";
@@ -20,21 +20,24 @@ export default defineComponent({
     };
 
     return () => {
-      const { schema, rootSchema, value, uiSchema, errorSchema } = props;
+      const { schema, rootSchema, value, uiSchema, errorSchema, inline } =
+        props;
       const { SchemaFormItems } = context;
       const properties = schema.properties || {};
       const curValue: any = isObject(value) ? value : {};
+
       return Object.keys(properties).map((k: string, index: number) => {
-        // const us = uiSchema.properties ? uiSchema.properties[k] || {} : {};
+        const us = uiSchema.properties ? uiSchema.properties[k] || {} : {};
         return (
           <SchemaFormItems
             schema={properties[k]}
             rootSchema={rootSchema}
-            uiSchema={uiSchema.properties ? uiSchema.properties[k] || {} : {}}
+            uiSchema={us}
             value={curValue[k]}
             key={index}
             errorSchema={errorSchema[k] || {}}
             onChange={(v: any) => handleObjectFieldChange(k, v)}
+            inline={inline}
           />
         );
       });
