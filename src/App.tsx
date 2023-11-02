@@ -5,7 +5,6 @@ import {
   ref,
   watchEffect,
   shallowRef,
-  watch,
 } from "vue";
 import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";

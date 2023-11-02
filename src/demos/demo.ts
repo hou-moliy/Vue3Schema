@@ -56,5 +56,6 @@ export default {
   default: {
     pass1: "1234567890",
     pass2: "1234567890",
+    color: "#ffffff",
   },
 };

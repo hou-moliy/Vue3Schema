@@ -45,17 +45,14 @@ export default defineComponent({
         default:
           console.warn(`${type} is not supported`);
       }
-      console.log("SchemaFormItems", props.inline);
 
       return (
-        // <div class={inline ? classesRef.value.item : ""}>
         <Component
           {...props}
           schema={retrievedSchema}
           errorSchema={errorSchema}
           class={props.inline ? classesRef.value.item : ""}
         />
-        // </div>
       );
     };
   },
