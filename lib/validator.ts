@@ -63,6 +63,8 @@ function transformErros(
   errors: ErrorObject[] | null | undefined,
 ): TransformedErrorObject[] {
   if (errors === null || errors === undefined) return [];
+  // 去掉keyword包含_的错误
+  errors = errors.filter((e) => e.keyword[0] !== "_");
   return errors.map(
     ({ message, instancePath, keyword, params, schemaPath }) => {
       const property = `${instancePath}`;

@@ -1,6 +1,6 @@
 import { PropType, defineComponent, DefineComponent } from "vue";
 import { ErrorSchema } from "./validator";
-import { FormatDefinition } from "ajv";
+import { FormatDefinition, SchemaCxt, KeywordDefinition } from "ajv";
 export enum SchemaTypes {
   "NUMBER" = "number",
   "INTEGER" = "integer",
@@ -153,4 +153,27 @@ export interface CustomFormat {
   name: string;
   definition: FormatDefinition<string | number>; // FormatDefinition是ajv中的一个类型,表示一个格式化的定义 https://ajv.js.org/guide/formats.html#custom-formats
   component: CommonWidgetDefine;
+}
+
+interface VjsfKeywordDefinition {
+  keyword?: string;
+  type?: any;
+  async?: boolean;
+  $data?: boolean;
+  errors?: "full" | boolean | undefined;
+  metaSchema?: object;
+  // schema: false makes validate not to expect schema (ValidateFunction)
+  schema?: boolean;
+  statements?: boolean;
+  dependencies?: Array<string>;
+  modifying?: boolean;
+  valid?: boolean;
+  // one and only one of the following properties should be present
+  // 应该存在以下属性中的一个，且仅存在一个，这里用到了联合类型，表示只能是这两种类型中的一种
+  macro: (schema: any, parentSchema: object, it: SchemaCxt) => object | boolean;
+}
+export interface CustomKeyword {
+  name: string;
+  deinition: VjsfKeywordDefinition;
+  transformSchema: (originSchema: Schema) => Schema;
 }

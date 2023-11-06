@@ -7,6 +7,7 @@ export default {
       pass1: {
         type: "string",
         minLength: 10,
+        _passwordValidate: true,
         title: "password",
       },
       pass2: {
@@ -43,7 +44,7 @@ export default {
     properties: {
       pass1: {
         widget: PasswordWidget,
-        showPassword: false, // 是否明文显示密码
+        showPassword: true, // 是否明文显示密码
       },
       pass2: {
         style: {
@@ -54,8 +55,8 @@ export default {
     },
   },
   default: {
-    pass1: "1234567890",
-    pass2: "1234567890",
+    // pass1: "1234567890",
+    // pass2: "1234567890",
     color: "#ffffff",
   },
 };

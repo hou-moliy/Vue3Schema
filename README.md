@@ -907,3 +907,14 @@ const formatMapRef = computed(() => {
 ```
 
 ExtractPropTypes ?
+
+### 10-5 关于自定义 keyword 来扩张功能实现
+
+**自定义关键字名称，'\_'表示是自定义的,方便后续 validator.ts 中过滤错误信息**
+
+可以实现 password 的格式校验
+自定义了一个 keyword,我们可以让使用这个 keyword 的地方都用同一个规则校验
+大致的流程：
+plugins(定义 keyword 校验规则)-->app.tsx 中导入，并传递给 schemaForm 组件-->schemaForm 组件中定义和接收 customKeywords,
+并在创建 ajv 实例的时候将 customKeywords 的自定义关键字添加进去,然后将 fomatransformSchemaRefrtRef(传入的 customKeywords 转换成新的 schema 形式，{...旧的 schema,自定义的规则})
+使用 provide 向下传递-->改造 context.ts--->schemaFormItems 中处理传递的 retrievedSchemaRef---validator.ts 中过滤 keyword 是*开头的（*开头表示是自定义关键字）

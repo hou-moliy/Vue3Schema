@@ -9,7 +9,13 @@ import {
   ref,
   computed,
 } from "vue";
-import { Schema, UISchema, CustomFormat, CommonWidgetDefine } from "./types";
+import {
+  Schema,
+  UISchema,
+  CustomFormat,
+  CommonWidgetDefine,
+  CustomKeyword,
+} from "./types";
 import SchemaFormItems from "./SchemaFormItems";
 import { SchemaFormContextKey } from "./context";
 import Ajv, { Options } from "ajv";
@@ -79,6 +85,10 @@ export default defineComponent({
       // 自定义校验规则
       type: [Array, Object] as PropType<CustomFormat[] | CustomFormat>,
     },
+    customKeywords: {
+      // 自定义关键字
+      type: [Array, Object] as PropType<CustomKeyword[] | CustomKeyword>,
+    },
   },
   name: "SchemaForm",
   setup(props) {
@@ -101,6 +111,15 @@ export default defineComponent({
         customFormats.forEach((format) => {
           // addFormat方法是ajv提供的，用来添加自定义校验规则的
           vaildatorRef.value.addFormat(format.name, format.definition);
+        });
+      }
+      // 添加自定义关键字
+      if (props.customKeywords) {
+        const customKeywords = Array.isArray(props.customKeywords)
+          ? props.customKeywords
+          : [props.customKeywords];
+        customKeywords.forEach((keyword) => {
+          vaildatorRef.value.addKeyword(keyword.name, keyword.deinition as any);
         });
       }
     });
@@ -186,9 +205,28 @@ export default defineComponent({
       },
     );
 
+    const transformSchemaRef = computed(() => {
+      if (props.customKeywords) {
+        const customKeywords = Array.isArray(props.customKeywords)
+          ? props.customKeywords
+          : [props.customKeywords];
+        return (schema: Schema) => {
+          let newSchema = schema;
+          customKeywords.forEach((keyword) => {
+            if ((newSchema as any)[keyword.name]) {
+              newSchema = keyword.transformSchema(newSchema);
+            }
+          });
+          return newSchema;
+        };
+      } else {
+        return (schema: Schema) => schema;
+      }
+    });
     const context = {
       SchemaFormItems,
       formatMapRef,
+      transformSchemaRef,
     };
 
     // 使用provide向下传递组件

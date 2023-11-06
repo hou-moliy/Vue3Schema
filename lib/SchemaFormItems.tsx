@@ -6,6 +6,7 @@ import ObjectField from "./fields/ObjectField";
 import ArrayField from "./fields/ArrayField";
 import { retrieveSchema } from "./utils";
 import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
+import { useVJSFContext } from "./context";
 const useStyles = createUseStyles({
   item: {
     "& + &": {
@@ -18,10 +19,13 @@ export default defineComponent({
   name: "SchemaFormItems",
   setup(props, { slots, emit, attrs }) {
     const classesRef = useStyles();
-
+    const formContext = useVJSFContext();
     const retrievedSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props;
-      return retrieveSchema(schema, rootSchema, value);
+      // return retrieveSchema(schema, rootSchema, value);
+      return formContext.transformSchemaRef.value(
+        retrieveSchema(schema, rootSchema, value),
+      );
     });
     return () => {
       const { schema, errorSchema } = props;
