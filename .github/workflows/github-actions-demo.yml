@@ -1,23 +1,30 @@
 name: test-coverage
 
-on: [push]
+on: [push]                                                  # 在 git push 的时候触发执行
 
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+jobs:                                                       # 执行的任务
+  build:                                                    # 构建
+    runs-on: ${{ matrix.os }}                               # 通过变量的形式指定运行平台
 
     strategy:
-      matrix:
-        node-version: [14.x, 15.x, 16.x]
-        os: [ubuntu-latest, macos-latest, windows-latest]
+      matrix:                                               # 矩阵，进行排列组合的到不动的运行环境
+        node-version: [8.x, 10.x, 12.x]                     # node.js 版本
+        os: [ubuntu-latest, macos-latest, windows-latest]   # 操作系统
 
-    steps:
-      - uses: actions/checkout@v2
+    steps:                                                  # 流程，步骤
+      - uses: actions/checkout@v2                           # 继承已有的 action, https://github.com/actions/checkout
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v1                         # 预先配置好的设置 node 环境的任务
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm run test:unit
-        env:
-          CI: true
+      - run: npm run test:unit:cov                          # CI=true npm run test:cov
+        env:                                                # 环境变量 process.env
+          CI: true                                          # process.env.CI
+
+      - name: Upload coverage to Codecov                    # 代码覆盖率
+        uses: codecov/codecov-action@v1                     # codecov 官方推出的可复用的 action
+        with:                                               # 传递参数
+          flags: unittests                                  # 标识
+          file: ./coverage/clover.xml                       # 读取覆盖率数据的地方
+          fail_ci_if_error: true                            # 任意一个环境报错时，将所有的 ci 停掉
