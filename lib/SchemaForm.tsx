@@ -28,11 +28,7 @@ const useStyles = createUseStyles({
     justifyContent: "flex-start",
     width: "100%",
     margin: "0 auto",
-  },
-  item: {
-    "& + &": {
-      marginLeft: 10, // 10px
-    },
+    gap: "10px",
   },
 });
 
@@ -139,7 +135,7 @@ export default defineComponent({
         return {};
       }
     });
-    console.log(formatMapRef, "formatMapRef");
+    // console.log(formatMapRef, "formatMapRef");
 
     watch(
       () => props.value,
@@ -154,9 +150,9 @@ export default defineComponent({
       },
     );
     // 用来存储校验的promise
-    const validateResolveRef = ref();
+    const validateResolveRef = shallowRef();
     // 用来存储当前的校验的index
-    const validateIndex = ref(0);
+    const validateIndex = shallowRef(0);
     const handleDoValidate = async () => {
       console.log("start  validate");
       const index = (validateIndex.value += 1);
@@ -187,7 +183,7 @@ export default defineComponent({
     watch(
       () => props.contextRef,
       () => {
-        console.log("contextRef change");
+        // console.log("contextRef change");
         if (props.contextRef) {
           props.contextRef.value = {
             doValidate() {

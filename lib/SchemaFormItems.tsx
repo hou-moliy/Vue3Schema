@@ -5,20 +5,12 @@ import NumberField from "./fields/NumberField";
 import ObjectField from "./fields/ObjectField";
 import ArrayField from "./fields/ArrayField";
 import { retrieveSchema } from "./utils";
-import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 import { useVJSFContext } from "./context";
-const useStyles = createUseStyles({
-  item: {
-    "& + &": {
-      marginLeft: 10, // 10px
-    },
-  },
-});
+
 export default defineComponent({
   props: FiledPropsDefine,
   name: "SchemaFormItems",
   setup(props, { slots, emit, attrs }) {
-    const classesRef = useStyles();
     const formContext = useVJSFContext();
     const retrievedSchemaRef = computed(() => {
       const { schema, rootSchema, value } = props;
@@ -55,7 +47,6 @@ export default defineComponent({
           {...props}
           schema={retrievedSchema}
           errorSchema={errorSchema}
-          class={props.inline ? classesRef.value.item : ""}
         />
       );
     };

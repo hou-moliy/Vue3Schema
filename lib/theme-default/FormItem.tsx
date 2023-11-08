@@ -22,7 +22,7 @@ const FormItem = defineComponent({
     return () => {
       const { schema, errors } = props;
       const classes = classesRef.value;
-      console.log("errors", errors);
+      // console.log("errors", errors);
       return (
         <div class={classes.container}>
           <label class={classes.label}>

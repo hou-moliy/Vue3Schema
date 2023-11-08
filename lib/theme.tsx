@@ -7,6 +7,7 @@ import {
   ComputedRef,
   ref,
   ExtractPropTypes, // ?
+  shallowRef,
 } from "vue";
 import {
   Theme,
@@ -51,12 +52,12 @@ export const getWidget = <T extends SelectionWidgetNames | CommonWidgetNames>(
   if (props) {
     const { uiSchema, schema } = props;
     if (uiSchema?.widget && isObject(uiSchema.widget)) {
-      return ref(uiSchema.widget as CommonWidgetDefine);
+      return shallowRef(uiSchema.widget as CommonWidgetDefine);
     }
     if (schema.format) {
       // 查看format数组中是否有schem中format字段值对应的这个自定义format组件
       if (formContext.formatMapRef.value[schema.format]) {
-        return ref(formContext.formatMapRef.value[schema.format]);
+        return shallowRef(formContext.formatMapRef.value[schema.format]);
       }
     }
   }

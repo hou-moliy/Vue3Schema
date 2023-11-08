@@ -1,11 +1,12 @@
 import { mount } from "@vue/test-utils";
 import JsonSchemaForm, { NumberField } from "../../lib";
 import themeDefault from "../../lib/theme-default";
+import TestComponent from "./utils/TestComponent";
 
 describe("JsonSchemaForm", () => {
   it("正常渲染一个数字的输入框", (done) => {
     let val = "";
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema: {
           type: "number",

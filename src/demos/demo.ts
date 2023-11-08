@@ -44,7 +44,7 @@ export default {
     properties: {
       pass1: {
         widget: PasswordWidget,
-        showPassword: true, // 是否明文显示密码
+        showPassword: false, // 是否明文显示密码
       },
       pass2: {
         style: {

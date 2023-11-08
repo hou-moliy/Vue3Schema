@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
-import JsonSchemaForm, { NumberField, StringField } from "../../lib";
+import { NumberField, StringField } from "../../lib";
 import themeDefault from "../../lib/theme-default";
+import TestComponent from "./utils/TestComponent";
 
 describe("objectField", () => {
   let schema: any;
@@ -20,7 +21,7 @@ describe("objectField", () => {
         },
       },
     };
-    wrapper = mount(JsonSchemaForm, {
+    wrapper = mount(TestComponent, {
       props: {
         schema,
         value,
@@ -58,7 +59,7 @@ describe("objectField", () => {
   });
   it("value不是Object", (done) => {
     value = "123";
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value,
@@ -77,7 +78,7 @@ describe("objectField", () => {
   });
   it("schema.properties 是 undefined", (done) => {
     delete schema.properties;
-    const wrapper = mount(JsonSchemaForm, {
+    const wrapper = mount(TestComponent, {
       props: {
         schema,
         value,

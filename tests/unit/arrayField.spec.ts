@@ -33,7 +33,7 @@ describe("arrayField", () => {
         rootSchema: {},
         value: val,
         onChange: (v) => {
-          console.log("v", v);
+          // console.log("v", v);
           val = v;
         },
         theme: themeDefault as any,
@@ -60,7 +60,7 @@ describe("arrayField", () => {
         rootSchema: {},
         value: val,
         onChange: (v) => {
-          console.log("v", v);
+          // console.log("v", v);
           val = v;
         },
         theme: themeDefault as any,
@@ -91,7 +91,7 @@ describe("arrayField", () => {
         rootSchema: {},
         value: val,
         onChange: (v) => {
-          console.log("v", v);
+          // console.log("v", v);
           val = v;
         },
         theme: themeDefault as any,
