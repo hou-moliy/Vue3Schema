@@ -918,3 +918,21 @@ ExtractPropTypes ?
 plugins(定义 keyword 校验规则)-->app.tsx 中导入，并传递给 schemaForm 组件-->schemaForm 组件中定义和接收 customKeywords,
 并在创建 ajv 实例的时候将 customKeywords 的自定义关键字添加进去,然后将 fomatransformSchemaRefrtRef(传入的 customKeywords 转换成新的 schema 形式，{...旧的 schema,自定义的规则})
 使用 provide 向下传递-->改造 context.ts--->schemaFormItems 中处理传递的 retrievedSchemaRef---validator.ts 中过滤 keyword 是*开头的（*开头表示是自定义关键字）
+
+### 11-1 关于自动化构建相关的知识介绍
+
+ShieldsIO
+
+#### 自动化构建
+
+##### CI
+
+###### 常见的 CI
+
+- Travis CI
+- Circle CI
+- Github Action
+
+### 11-2 创建 github 仓库以及配置自动化构建
+
+[GitHub Actions 快速入门](https://docs.github.com/zh/actions/quickstart#next-steps)
