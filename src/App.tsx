@@ -14,6 +14,7 @@ import themeDefault from "../lib/theme-default";
 import { ThemeProvider } from "../lib/index";
 import customFormat from "./plugins/customFormats/index";
 import customKeyword from "./plugins/customKeywords/index";
+import draggable from "vuedraggable";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
 type Schema = any;
@@ -21,21 +22,48 @@ type UISchema = any;
 const toJson = (data: any) => {
   return JSON.stringify(data, null, 2); // 保留格式的json转换
 };
-const schema = {
-  //schema规则
-  type: "string",
-};
+
 const useStyles = createUseStyles({
   // 写样式，字段就相当于class名
+  headTool: {
+    width: "100%",
+    height: 60,
+    lineHeight: "60px",
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: 600,
+    background: "#fff",
+    boxShadow: "0px 0px 10px rgba(0,0,0,.5)",
+    marginBottom: 20,
+  },
   container: {
-    display: "flex",
-    flexDirection: "column",
+    width: "100%",
     height: "100%",
-    width: "1200px",
+    display: "flex",
     margin: "0 auto",
+    position: "relative",
   },
   menu: {
-    marginBottom: 20,
+    width: 365,
+    borderRight: "1px solid #ddd",
+    padding: 10,
+    boxSizing: "border-box",
+  },
+  takeBase: {
+    width: 0,
+    height: 0,
+    borderWidth: 10,
+    borderStyle: "solid",
+    borderColor: "transparent #0099CC transparent transparent",
+    position: "absolute",
+    top: 0,
+    cursor: "pointer",
+  },
+  takeIn: {
+    left: 325,
+  },
+  takeOut: {
+    left: 0,
   },
   code: {
     width: 700,
@@ -54,28 +82,65 @@ const useStyles = createUseStyles({
   },
   content: {
     display: "flex",
+    flex: 1,
+    justifyContent: "space-between",
   },
   form: {
-    padding: "0 20px",
-    flexGrow: 1,
+    padding: "20px",
+    flex: 1,
+    background: "#f5f5f5",
+    boxSizing: "border-box",
+    border: "1px dashed #bbbbbb",
+    "& > div": {
+      width: "100%",
+      height: "100%",
+    },
   },
   menuButton: {
     appearance: "none",
     borderWidth: 0,
-    backgroundColor: "transparent",
     cursor: "pointer",
     display: "inline-block",
     padding: 15,
-    borderRadius: 5,
+    boxSizing: "border-box",
+    background: "#f2f2f2",
     "&:hover": {
-      background: "#efefef",
+      border: "1px dashed #337ab7",
+      boxShadow: "0px 0px 5px #337ab7",
     },
   },
   menuSelected: {
-    background: "#337ab7",
-    color: "#fff",
     "&:hover": {
+      border: "1px dashed #337ab7",
+      boxShadow: "0px 0px 5px #337ab7",
+    },
+  },
+  tools: {
+    width: 380,
+    height: "100%",
+    background: "#fff",
+    padding: 20,
+    boxSizing: "border-box",
+    borderLeft: "1px solid #ddd",
+  },
+  toolsHeader: {
+    fontSize: 16,
+    marginBottom: 10,
+    display: "flex",
+    justifyContent: "flex-start",
+  },
+  toolsHeaderItem: {
+    cursor: "pointer",
+    padding: "5px 10px",
+    borderRadius: 5,
+    "&:hover": {
+      background: "#ddd",
+    },
+    "&.active": {
       background: "#337ab7",
+    },
+    "&+&": {
+      marginLeft: 10,
     },
   },
 });
@@ -92,6 +157,9 @@ interface DataType {
 }
 
 export default defineComponent({
+  components: {
+    draggable,
+  },
   setup() {
     const selectedRef: Ref<number> = ref(0);
 
@@ -147,98 +215,140 @@ export default defineComponent({
     const handleUISchemaChange = (v: string) => handleCodeChange("uiSchema", v);
 
     const contextRef: Ref<any> = ref();
-    const user = { name: "John Doe", age: 18 };
-    const shallUer = shallowRef(user);
-    const rUser = ref(user);
-    const changeShallowUser = () => {
-      shallUer.value.name = "123";
-      console.log(user);
-    };
-    const changeUser = () => {
-      rUser.value.name = "456";
-      console.log(user);
-    };
+
     const validateForm = () => {
       contextRef.value.doValidate().then((result: any) => {
         console.log(result, "result");
       });
     };
+    const componentsShow = ref(true);
+    const handleTakeIn = () => {
+      componentsShow.value = !componentsShow.value;
+    };
+    const widgetList = reactive([]);
     return () => {
       const classes = classesRef.value;
       const selected = selectedRef.value;
       return (
-        // <StyleThemeProvider>
-        // <VJSFThemeProvider  theme={theme as any}>
-        <div class={classes.container}>
-          {rUser.value.name}-----{shallUer.value.name}
-          <button onClick={changeShallowUser}>changeShallowUser</button>
-          <button onClick={changeUser}>changeUser</button>
-          <div class={classes.menu}>
-            {/* <h1>Vue3 JsonSchema Form</h1> */}
-            <div>
-              {demos.map((demo, index) => (
-                <button
-                  class={{
-                    [classes.menuButton]: true,
-                    [classes.menuSelected]: index === selected,
-                  }}
-                  onClick={() => (selectedRef.value = index)}
+        <div>
+          <div class={classes.headTool}>这里是标题</div>
+          <div class={classes.container}>
+            {/* 组件栏 */}
+            <div
+              class={{
+                [classes.takeBase]: true,
+                [classes.takeIn]: componentsShow.value,
+                [classes.takeOut]: !componentsShow.value,
+              }}
+              onClick={handleTakeIn}
+            ></div>
+            <div class={classes.menu} v-show={componentsShow.value}>
+              {/* 组件列表 */}
+              <draggable
+                list={demos}
+                force-fallback={true}
+                group={{ name: "list", pull: "clone" }}
+                sort={false}
+                itemKey="name"
+              >
+                {{
+                  item: () => (
+                    <p>
+                      {demos.map((demo, index) => (
+                        <div
+                          class={{
+                            [classes.menuButton]: true,
+                          }}
+                          // onClick={() => (selectedRef.value = index)}
+                        >
+                          {demo.name}
+                        </div>
+                      ))}
+                    </p>
+                  ),
+                }}
+              </draggable>
+            </div>
+            {/* 内容区域 */}
+            <div class={classes.content}>
+              {/* 表单展示 */}
+              <div class={classes.form}>
+                <draggable
+                  list={widgetList}
+                  force-fallback={true}
+                  group="list"
+                  itemKey="name"
+                  fallbackOnBody={true}
                 >
-                  {demo.name}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div class={classes.content}>
-            <div class={classes.code}>
-              <MonacoEditor
-                code={demo.schemaCode}
-                class={classes.codePanel}
-                onChange={handleSchemaChange}
-                title="Schema"
-              />
-              <div class={classes.uiAndValue}>
-                <MonacoEditor
-                  code={demo.uiSchemaCode}
-                  class={classes.codePanel}
-                  onChange={handleUISchemaChange}
-                  title="UISchema"
-                />
-                <MonacoEditor
-                  code={demo.dataCode}
-                  class={classes.codePanel}
-                  onChange={handleDataChange}
-                  title="Value"
-                />
+                  {{
+                    item: ({ element }: { element: any }) => (
+                      console.log(element, "element"),
+                      (
+                        <ThemeProvider theme={themeDefault}>
+                          <SchemaForm
+                            schema={element.schema}
+                            uiSchema={element.uiSchema || {}}
+                            onChange={handleChange}
+                            value={element.data}
+                            contextRef={contextRef}
+                            customValidate={element.customValidate}
+                            inline={element.name.inline}
+                            customFormats={customFormat}
+                            customKeywords={customKeyword}
+                          />
+                        </ThemeProvider>
+                      )
+                    ),
+                  }}
+                </draggable>
+                {/* <ThemeProvider theme={themeDefault}>
+                  <SchemaForm
+                    schema={demo.schema}
+                    uiSchema={demo.uiSchema || {}}
+                    onChange={handleChange}
+                    value={demo.data}
+                    contextRef={contextRef}
+                    customValidate={demo.customValidate}
+                    inline={demo.inline}
+                    customFormats={customFormat}
+                    customKeywords={customKeyword}
+                  />
+                </ThemeProvider>
+                <button onClick={validateForm}>校验</button> */}
               </div>
-            </div>
-            <div class={classes.form}>
-              <ThemeProvider theme={themeDefault}>
-                <SchemaForm
-                  schema={demo.schema}
-                  uiSchema={demo.uiSchema || {}}
-                  onChange={handleChange}
-                  value={demo.data}
-                  contextRef={contextRef}
-                  customValidate={demo.customValidate}
-                  inline={demo.inline}
-                  customFormats={customFormat}
-                  customKeywords={customKeyword}
+              {/* code展示 */}
+              <div class={classes.code} v-show={false}>
+                <MonacoEditor
+                  code={demo.schemaCode}
+                  class={classes.codePanel}
+                  onChange={handleSchemaChange}
+                  title="Schema"
                 />
-              </ThemeProvider>
-              {/* <SchemaForm
-                schema={demo.schema!}
-                uiSchema={demo.uiSchema!}
-                onChange={handleChange}
-                contextRef={methodRef}
-                value={demo.data}
-              /> */}
-              <button onClick={validateForm}>校验</button>
+                <div class={classes.uiAndValue}>
+                  <MonacoEditor
+                    code={demo.uiSchemaCode}
+                    class={classes.codePanel}
+                    onChange={handleUISchemaChange}
+                    title="UISchema"
+                  />
+                  <MonacoEditor
+                    code={demo.dataCode}
+                    class={classes.codePanel}
+                    onChange={handleDataChange}
+                    title="Value"
+                  />
+                </div>
+              </div>
+              {/* 表单配置项 */}
+              <div class={classes.tools}>
+                <div class={classes.toolsHeader}>
+                  <div class={classes.toolsHeaderItem}>组件配置</div>
+                  <div class={classes.toolsHeaderItem}>表单配置</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        // </VJSFThemeProvider >
-        // </StyleThemeProvider>
       );
     };
   },

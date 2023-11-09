@@ -936,3 +936,147 @@ ShieldsIO
 ### 11-2 创建 github 仓库以及配置自动化构建
 
 [GitHub Actions 快速入门](https://docs.github.com/zh/actions/quickstart#next-steps)
+
+# vue3-cli-ts(vue+ts 打造企业级组件库学习后功能拓展)
+
+## 拖拽功能
+
+拖拽使用[vue.draggable.next](https://github.com/SortableJS/vue.draggable.next)实现
+[中文文档参考](https://www.itxst.com/vue-draggable-next/tutorial.html)
+
+| 属性名称            | 说明                                                                                                                                                  |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| group               | 如果一个页面有多个拖拽区域，通过设置 group 名称可以实现多个区域之间相互拖拽                                                                           |
+| 或者                | { name: "...", pull: [true, false, 'clone', array , function], put: [true, false, array , function] }                                                 |
+| sort                | 是否开启排序,如果设置为 false,它所在组无法排序                                                                                                        |
+| delay               | 鼠标按下多少秒之后可以拖拽元素                                                                                                                        |
+| touchStartThreshold | 鼠标按下移动多少 px 才能拖动元素                                                                                                                      |
+| disabled            | :disabled= "true",是否启用拖拽组件                                                                                                                    |
+| animation           | 拖动时的动画效果，如设置 animation=1000 表示 1 秒过渡动画效果                                                                                         |
+| handle              | :handle=".mover" 只有当鼠标在 class 为 mover 类的元素上才能触发拖到事件                                                                               |
+| filter              | :filter=".unmover" 设置了 unmover 样式的元素不允许拖动                                                                                                |
+| draggable           | :draggable=".item" 样式类为 item 的元素才能被拖动                                                                                                     |
+| ghost-class         | :ghost-class="ghostClass" 设置拖动元素的占位符类名,你的自定义样式可能需要加!important 才能生效，并把 forceFallback 属性设置成 true                    |
+| chosen-class        | :ghost-class="hostClass" 被选中目标的样式，你的自定义样式可能需要加!important 才能生效，并把 forceFallback 属性设置成 true                            |
+| drag-class          | :drag-class="dragClass"拖动元素的样式，你的自定义样式可能需要加!important 才能生效，并把 forceFallback 属性设置成 true                                |
+| force-fallback      | 默认 false，忽略 HTML5 的拖拽行为，因为 h5 里有个属性也是可以拖动，你要自定义 ghostClass chosenClass dragClass 样式时，建议 forceFallback 设置为 true |
+| fallback-class      | 默认 false，克隆选中元素的样式到跟随鼠标的样式                                                                                                        |
+| fallback-on-body    | 默认 false，克隆的元素添加到文档的 body 中                                                                                                            |
+| fallback-tolerance  | 按下鼠标移动多少个像素才能拖动元素，:fallback-tolerance="8"                                                                                           |
+| scroll              | 默认 true,有滚动区域是否允许拖拽                                                                                                                      |
+| scroll-fn           | 滚动回调函数                                                                                                                                          |
+| scroll-fensitivity  | 距离滚动区域多远时，滚动滚动条                                                                                                                        |
+| scroll-speed        | 滚动速度                                                                                                                                              |
+
+### 示例 demo
+
+```js
+//  A组
+<draggable :list="dragList" ghost-class="ghost" :force-fallback="true" :group="{ name: 'list', pull: 'clone' }"
+      :sort="false" itemKey="id">
+      <template #item="{ element }">
+        <div class="item move">
+          <label class="move">{{ element.name }}</label>
+        </div>
+      </template>
+</draggable>
+
+// B组
+<draggable :list="widgetList" ghost-class="ghost" itemKey="id" :force-fallback="true" group="list"
+      :fallback-class="true" :fallback-on-body="true" class="drag-content">
+      <template #item="{ element }">
+        <div class="item move">
+          <label class="move title">{{ element.name }}</label>
+          <div> <el-input v-model="input" placeholder="Please input" v-if="element.element === 'input'" /></div>
+          <div><el-input v-model="textarea" :rows="2" type="textarea" placeholder="Please input"
+              v-if="element.element === 'textarea'" /> </div>
+        </div>
+      </template>
+</draggable>
+```
+
+### 遇到的问题
+
+#### 1、vue3 slot 插槽在 tsx 中的使用方法
+
+##### 插槽的形式
+
+- 默认插槽：子组件 A.tsx
+
+```js
+export default defineComponent({
+  setup(props, { emit, slots, expose }) {
+    return () => <div>{slots.default?.()}</div>;
+  },
+});
+```
+
+- 具名插槽：子组件 B.tsx
+  `foo就是定义的插槽的名字`
+
+```js
+export default defineComponent({
+  setup(_, { slots }) {
+    return () => <>{slots.foo?.()}</>;
+  },
+});
+```
+
+- 作用域插槽：子组件 C.tsx
+  `{ name: 'C插槽的数据', data: [1, 2, 3, 4, 5, 6] } 这个对象就是向外部传递的数据`
+
+```js
+export default defineComponent({
+  setup(_, { slots }) {
+    return () => (
+      <>
+        {slots.footer?.({ name: "C插槽传递的数据", data: [1, 2, 3, 4, 5, 6] })}
+      </>
+    );
+  },
+});
+```
+
+##### 插槽在父组件中的使用
+
+```js
+import A from "./A";
+import B from "./B";
+import C from "./C";
+export default defineComponent({
+  setup() {
+    return () => (
+      <div>
+        <A>我是默认插槽的内容</A>
+        <A>{{ default: () => <p>我是默认插槽的内容</p> }}</A>
+        <B>{{ foo: () => <p>我是具名插槽的内容</p> }}</B>
+        <C>
+          {{
+            // 通过解构得到插槽作用域的参数。{ name: string; data: number[] }是定义的ts类型
+            footer: ({ name, data }: { name: string, data: number[] }) => (
+              <p>
+                {name}---{data}
+              </p>
+            ),
+          }}
+        </C>
+      </div>
+    );
+  },
+});
+```
+
+#### 2、【vuedraggable】目标容器为空时无法拖入
+
+自测的时候时遇到个小问题，从一个容器向另一个容器中拖入内容时失败，只能由上向下拖拽才可以成功。后来经过多次测试发现是**从一个容器向另一个空容器中**（即第一次拖拽）才会产生这个情况，当两边容器都不是空的时候没有这个问题。
+经过网上查找资料发现，是`draggable元素捕捉是建立在容器尺寸窗口的基础上。所以，当draggable元素没有初始元素时，其容器宽高为0，所以窗口在高度为0的尺寸下无法捕捉拖入的元素。`
+
+##### 解决思路
+
+- 1、容器没有初始元素时给予默认尺寸撑开。
+
+  我给 draggle 标签增加了类名，并设置了相应的高度，但是并没有什么用，仍然无法拖入。
+
+- 2、审查元素发现是 draggle 下面默认还有一层 div 包裹着插槽的内容。
+
+  我给 draggle>div 增加了样式`{width:100%;height:100%;}`然后就可以了。

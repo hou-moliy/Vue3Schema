@@ -23,10 +23,12 @@
     "lodash.topath": "^4.5.2",
     "lodash.union": "^4.6.0",
     "monaco-editor-webpack-plugin": "^7.1.0",
+    "reset-css": "^5.0.2",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-jss": "^0.0.4",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
