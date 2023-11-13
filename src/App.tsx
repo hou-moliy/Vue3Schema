@@ -14,7 +14,6 @@ import themeDefault from "../lib/theme-default";
 import { ThemeProvider } from "../lib/index";
 import customFormat from "./plugins/customFormats/index";
 import customKeyword from "./plugins/customKeywords/index";
-import draggable from "vuedraggable";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
 type Schema = any;
@@ -157,9 +156,6 @@ interface DataType {
 }
 
 export default defineComponent({
-  components: {
-    draggable,
-  },
   setup() {
     const selectedRef: Ref<number> = ref(0);
 
@@ -228,7 +224,6 @@ export default defineComponent({
     const widgetList = reactive([]);
     return () => {
       const classes = classesRef.value;
-      const selected = selectedRef.value;
       return (
         <div>
           <div class={classes.headTool}>这里是标题</div>
@@ -244,7 +239,7 @@ export default defineComponent({
             ></div>
             <div class={classes.menu} v-show={componentsShow.value}>
               {/* 组件列表 */}
-              <draggable
+              <vue-draggable
                 list={demos}
                 force-fallback={true}
                 group={{ name: "list", pull: "clone" }}
@@ -259,7 +254,6 @@ export default defineComponent({
                           class={{
                             [classes.menuButton]: true,
                           }}
-                          // onClick={() => (selectedRef.value = index)}
                         >
                           {demo.name}
                         </div>
@@ -267,13 +261,13 @@ export default defineComponent({
                     </p>
                   ),
                 }}
-              </draggable>
+              </vue-draggable>
             </div>
             {/* 内容区域 */}
             <div class={classes.content}>
               {/* 表单展示 */}
               <div class={classes.form}>
-                <draggable
+                <vue-draggable
                   list={widgetList}
                   force-fallback={true}
                   group="list"
@@ -282,25 +276,22 @@ export default defineComponent({
                 >
                   {{
                     item: ({ element }: { element: any }) => (
-                      console.log(element, "element"),
-                      (
-                        <ThemeProvider theme={themeDefault}>
-                          <SchemaForm
-                            schema={element.schema}
-                            uiSchema={element.uiSchema || {}}
-                            onChange={handleChange}
-                            value={element.data}
-                            contextRef={contextRef}
-                            customValidate={element.customValidate}
-                            inline={element.name.inline}
-                            customFormats={customFormat}
-                            customKeywords={customKeyword}
-                          />
-                        </ThemeProvider>
-                      )
+                      <ThemeProvider theme={themeDefault}>
+                        <SchemaForm
+                          schema={element.schema}
+                          uiSchema={element.uiSchema || {}}
+                          onChange={handleChange}
+                          value={element.data}
+                          contextRef={contextRef}
+                          customValidate={element.customValidate}
+                          inline={element.name.inline}
+                          customFormats={customFormat}
+                          customKeywords={customKeyword}
+                        />
+                      </ThemeProvider>
                     ),
                   }}
-                </draggable>
+                </vue-draggable>
                 {/* <ThemeProvider theme={themeDefault}>
                   <SchemaForm
                     schema={demo.schema}
