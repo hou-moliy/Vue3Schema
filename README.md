@@ -919,6 +919,8 @@ plugins(定义 keyword 校验规则)-->app.tsx 中导入，并传递给 schemaFo
 并在创建 ajv 实例的时候将 customKeywords 的自定义关键字添加进去,然后将 fomatransformSchemaRefrtRef(传入的 customKeywords 转换成新的 schema 形式，{...旧的 schema,自定义的规则})
 使用 provide 向下传递-->改造 context.ts--->schemaFormItems 中处理传递的 retrievedSchemaRef---validator.ts 中过滤 keyword 是*开头的（*开头表示是自定义关键字）
 
+## 11 构建+发布+总结
+
 ### 11-1 关于自动化构建相关的知识介绍
 
 ShieldsIO
@@ -937,7 +939,29 @@ ShieldsIO
 
 [GitHub Actions 快速入门](https://docs.github.com/zh/actions/quickstart#next-steps)
 
-# vue3-cli-ts(vue+ts 打造企业级组件库学习后功能拓展)
+### 11-4 发布类库到 npm
+
+#### 配置 package.json
+
+```js
+// 设置发布的配置，只影响发布，发布到npm国外的镜像源，安装npm i的镜像源，本地是什么就是什么，无影响。
+ "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  // 需要发布的哪些代码
+  "files": [
+    "dist"
+  ],
+  // 后续import使用这个npm包的时候，实际引入的入口文件
+  "main": "dist/index.js",
+  "name":"xxx",// 仓库名，唯一
+  "private": false, // 表示对所有人开放
+  "scripts":{
+     "prepublishOnly": "npm run build" // 执行 npm publish会先执行npm run build
+  }
+```
+
+# vue3-cli-ts(功能拓展)
 
 ## 拖拽功能
 
