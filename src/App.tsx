@@ -14,6 +14,7 @@ import themeDefault from "../lib/theme-default";
 import { ThemeProvider } from "../lib/index";
 import customFormat from "./plugins/customFormats/index";
 import customKeyword from "./plugins/customKeywords/index";
+import library from "./demos/library";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
 type Schema = any;
@@ -240,25 +241,29 @@ export default defineComponent({
             <div class={classes.menu} v-show={componentsShow.value}>
               {/* 组件列表 */}
               <vue-draggable
-                list={demos}
+                list={library.list}
                 force-fallback={true}
                 group={{ name: "list", pull: "clone" }}
                 sort={false}
                 itemKey="name"
               >
                 {{
-                  item: () => (
-                    <p>
-                      {demos.map((demo, index) => (
+                  item: ({ element }: { element: any }) => (
+                    console.log(element, "element"),
+                    (
+                      <div>
+                        {/* {library.list.map((com, index) => (
                         <div
                           class={{
                             [classes.menuButton]: true,
                           }}
-                        >
-                          {demo.name}
-                        </div>
-                      ))}
-                    </p>
+                        > */}
+                        {/* {com.name} */}
+                        {/* </div>
+                      ))} */}
+                        123
+                      </div>
+                    )
                   ),
                 }}
               </vue-draggable>
