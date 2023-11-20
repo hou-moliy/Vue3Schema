@@ -9,13 +9,8 @@ import {
 import { useStyles } from "@/css/appStyle"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";
 import demos from "./demos";
-import SchemaForm from "../lib";
-import themeDefault from "../lib/theme-default";
-import { ThemeProvider } from "../lib/index";
-import customFormat from "./plugins/customFormats/index";
-import customKeyword from "./plugins/customKeywords/index";
 import library from "./demos/library";
-import useRenderContentForm from "./hooks/userRenderContentForm";
+import ContentForm from "./components/ContentForm";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
 type Schema = any;
@@ -68,14 +63,6 @@ export default defineComponent({
 
     const methodRef: Ref<any> = ref();
 
-    const {
-      widgetList,
-      layoutList,
-      handleChange,
-      classesRef,
-      contextRef,
-      renderContentForm,
-    } = useRenderContentForm(demo);
     const handleCodeChange = (
       filed: "schema" | "data" | "uiSchema",
       value: string,
@@ -92,6 +79,8 @@ export default defineComponent({
     const handleDataChange = (v: string) => handleCodeChange("data", v);
     const handleUISchemaChange = (v: string) => handleCodeChange("uiSchema", v);
 
+    const classesRef = useStyles();
+    const contextRef: Ref<any> = ref();
     const validateForm = () => {
       contextRef.value.doValidate().then((result: any) => {
         console.log(result, "result");
@@ -145,7 +134,9 @@ export default defineComponent({
             {/* 内容区域 */}
             <div class={classes.content}>
               {/* 表单展示 */}
-              <div class={classes.form}>{renderContentForm(classes)}</div>
+              <div class={classes.form}>
+                <ContentForm />
+              </div>
               {/* code展示 */}
               <div class={classes.code} v-show={false}>
                 <MonacoEditor

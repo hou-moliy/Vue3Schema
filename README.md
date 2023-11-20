@@ -1104,3 +1104,19 @@ export default defineComponent({
 - 2、审查元素发现是 draggle 下面默认还有一层 div 包裹着插槽的内容。
 
   我给 draggle>div 增加了样式`{width:100%;height:100%;}`然后就可以了。
+
+#### 3、JSX 如何编写递归组件
+
+参见代码 ContentForm/index.tsx,关键点**`resolveComponent`,`h`**
+
+#### 4、JSX 如何引入项目本地的静态资源图片
+
+参见代码/src/components/ActionComponentWrap/index.tsx
+
+```ts
+<img
+  class={classes.actionItem}
+  src={require("@/assets/base/delete.png")}
+  alt=""
+/>
+```

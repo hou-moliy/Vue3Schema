@@ -15,6 +15,7 @@ export default {
         {
           name: "ObjectField",
           type: "layout",
+          values: [],
           schema: {
             type: "object",
             properties: {},
@@ -23,6 +24,7 @@ export default {
         {
           name: "ArrayField",
           type: "layout",
+          values: [],
           schema: {
             type: "array",
             items: {},

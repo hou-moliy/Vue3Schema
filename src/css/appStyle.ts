@@ -69,7 +69,7 @@ export const useStyles = createUseStyles({
     boxSizing: "border-box",
     border: "1px dashed #bbbbbb",
     height: "100%",
-    "& > div": {
+    "& > div > div": {
       width: "100%",
       height: "100%",
       minHeight: "100vh",
@@ -93,7 +93,7 @@ export const useStyles = createUseStyles({
   },
   menuButton: {
     marginTop: 10,
-    cursor: "pointer",
+    cursor: "move",
     display: "inline-block",
     padding: 15,
     boxSizing: "border-box",
@@ -109,20 +109,22 @@ export const useStyles = createUseStyles({
     },
   },
   layout: {
-    width: "100%",
     height: "100%",
-    background: "#fff",
+    backgroundColor: "#fff",
     border: "1px dashed #bbb",
     padding: "30px 10px 10px",
     "&+&": {
       marginTop: 10,
+    },
+    "&:hover": {
+      border: "1px solid #0099CC",
     },
   },
   layoutContent: {
     padding: 20,
     backgroundColor: "#f5f5f5",
     marginTop: 10,
-    "&>div": {
+    "&:nth-child(2)": {
       width: "100%",
       height: "100%",
     },
@@ -130,8 +132,11 @@ export const useStyles = createUseStyles({
   layoutContentText: {
     textAlign: "center",
     color: "#bbb",
+    cursor: "move",
   },
-
+  normalContent: {
+    marginTop: 10,
+  },
   tools: {
     width: 380,
     height: "100%",
@@ -158,6 +163,11 @@ export const useStyles = createUseStyles({
     },
     "&+&": {
       marginLeft: 10,
+    },
+  },
+  chosen: {
+    "&:hover": {
+      boxShadow: "0px 0px 5px #337ab7",
     },
   },
 });
