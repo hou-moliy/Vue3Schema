@@ -1,5 +1,13 @@
-import { defineComponent, reactive, Ref, ref, resolveComponent, h } from "vue";
-import { useStyles } from "@/css/appStyle";
+import {
+  defineComponent,
+  reactive,
+  Ref,
+  ref,
+  resolveComponent,
+  h,
+  computed,
+} from "vue";
+import { useStyles } from "./style";
 import { ThemeProvider } from "../../../lib/index";
 import SchemaForm from "../../../lib";
 import themeDefault from "../../../lib/theme-default";
@@ -89,9 +97,7 @@ const ContentForm = defineComponent({
                       <div class={classes.layout}>
                         <div class={classes.menuGroupName}>{element.name}</div>
                         <div class={classes.layoutContent}>
-                          <div class={classes.layoutContentText}>
-                            拖入子组件
-                          </div>
+                          <div class={classes.layoutContentText}>拖入组件</div>
                           <vue-draggable
                             list={element.values}
                             force-fallback={true}

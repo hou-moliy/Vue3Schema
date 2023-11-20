@@ -62,34 +62,15 @@ export const useStyles = createUseStyles({
     flex: 1,
     justifyContent: "space-between",
   },
-  form: {
-    padding: "20px",
-    flex: 1,
-    background: "#f5f5f5",
-    boxSizing: "border-box",
-    border: "1px dashed #bbbbbb",
-    height: "100%",
-    "& > div > div": {
-      width: "100%",
-      height: "100%",
-      minHeight: "100vh",
-    },
+  dragContent: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 10,
   },
   menuGroup: {
     "&+&": {
       marginTop: 20,
     },
-  },
-  menuGroupName: {
-    fontSize: 15,
-    fontWeight: 700,
-    lineHeight: "18px",
-    color: "#666",
-  },
-  dragContent: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 10,
   },
   menuButton: {
     marginTop: 10,
@@ -108,34 +89,24 @@ export const useStyles = createUseStyles({
       boxShadow: "0px 0px 5px #337ab7",
     },
   },
-  layout: {
-    height: "100%",
-    backgroundColor: "#fff",
-    border: "1px dashed #bbb",
-    padding: "30px 10px 10px",
-    "&+&": {
-      marginTop: 10,
-    },
-    "&:hover": {
-      border: "1px solid #0099CC",
-    },
+  menuGroupName: {
+    fontSize: 15,
+    fontWeight: 700,
+    lineHeight: "18px",
+    color: "#666",
   },
-  layoutContent: {
-    padding: 20,
-    backgroundColor: "#f5f5f5",
-    marginTop: 10,
-    "&:nth-child(2)": {
+  form: {
+    padding: "20px",
+    flex: 1,
+    background: "#f5f5f5",
+    boxSizing: "border-box",
+    border: "1px dashed #bbbbbb",
+    height: "100%",
+    "& > div > div": {
       width: "100%",
       height: "100%",
+      minHeight: "100vh",
     },
-  },
-  layoutContentText: {
-    textAlign: "center",
-    color: "#bbb",
-    cursor: "move",
-  },
-  normalContent: {
-    marginTop: 10,
   },
   tools: {
     width: 380,
@@ -163,11 +134,6 @@ export const useStyles = createUseStyles({
     },
     "&+&": {
       marginLeft: 10,
-    },
-  },
-  chosen: {
-    "&:hover": {
-      boxShadow: "0px 0px 5px #337ab7",
     },
   },
 });

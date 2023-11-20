@@ -1,6 +1,10 @@
 import { createUseStyles } from "vue-jss"; // 引入开源项目，用js写css
 export const useStyles = createUseStyles({
   // 写样式，字段就相当于class名
+  wrapper: {
+    width: "100%",
+    backgroundColor: "#fff",
+  },
   actionWrap: {
     display: "flex",
     justifyContent: "flex-end",
