@@ -90,6 +90,7 @@ export default defineComponent({
     const handleTakeIn = () => {
       componentsShow.value = !componentsShow.value;
     };
+    const widgetList = reactive([]);
 
     return () => {
       const classes = classesRef.value;
@@ -135,7 +136,7 @@ export default defineComponent({
             <div class={classes.content}>
               {/* 表单展示 */}
               <div class={classes.form}>
-                <ContentForm />
+                <ContentForm list={widgetList} />
               </div>
               {/* code展示 */}
               <div class={classes.code} v-show={false}>

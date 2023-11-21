@@ -3,6 +3,16 @@ import { useStyles } from "./style";
 
 const ActionComponentWrap = defineComponent({
   name: "ActionComponentWrap",
+  props: {
+    list: {
+      type: Array,
+      default: () => [],
+    },
+    curItem: {
+      type: Object,
+      default: null,
+    },
+  },
   setup(props, { slots }) {
     const classesRef = useStyles();
 

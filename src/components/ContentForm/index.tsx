@@ -6,6 +6,7 @@ import {
   resolveComponent,
   h,
   computed,
+  watchEffect,
 } from "vue";
 import { useStyles } from "./style";
 import { ThemeProvider } from "../../../lib/index";
@@ -32,10 +33,15 @@ interface DataType {
 
 const ContentForm = defineComponent({
   name: "ContentForm",
-  setup() {
+  props: {
+    list: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup(props, { slots }) {
     const classesRef = useStyles();
     const contextRef: Ref<any> = ref();
-    const widgetList = reactive([]);
     const layoutList = reactive([]);
     const demo: DataType = reactive({
       schema: null,
@@ -47,17 +53,23 @@ const ContentForm = defineComponent({
       customValidate: undefined,
       inline: false,
     });
+
+    const widgetList = reactive([]);
+
     const handleChange = (v: any) => {
       demo.data = v;
       demo.dataCode = toJson(v);
     };
+    watchEffect(() => {
+      console.log("props.list", props.list);
+    });
 
     return () => {
       const classes = classesRef.value;
       return (
         <div>
           <vue-draggable
-            list={widgetList}
+            list={props.list}
             force-fallback={true}
             group="list"
             itemKey="name"
@@ -66,7 +78,7 @@ const ContentForm = defineComponent({
           >
             {{
               item: ({ element }: { element: any }) => {
-                if (element.type != "layout") {
+                if (element.type !== "layout") {
                   // 非布局组件
                   return (
                     <ActionComponentWrap>
@@ -106,9 +118,13 @@ const ContentForm = defineComponent({
                             fallbackOnBody={true}
                           >
                             {{
-                              item: ({ element }: { element: any }) => {
+                              item: ({
+                                element: innerEl,
+                              }: {
+                                element: any;
+                              }) => {
                                 return h(resolveComponent("ContentForm"), {
-                                  element,
+                                  list: innerEl.values,
                                 });
                               },
                             }}
