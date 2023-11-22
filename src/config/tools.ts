@@ -10,21 +10,20 @@
 export default {
   list: [
     {
-      name: "布局组件",
-      components: [
+      groupName: "布局组件",
+      componentList: [
         {
-          name: "ObjectField",
+          title: "ObjectField",
           type: "layout",
-          values: [],
           schema: {
             type: "object",
             properties: {},
           },
         },
         {
-          name: "ArrayField",
+          title: "ArrayField",
           type: "layout",
-          values: [],
+          children: [],
           schema: {
             type: "array",
             items: {},
@@ -33,16 +32,16 @@ export default {
       ],
     },
     {
-      name: "基础组件",
-      components: [
+      groupName: "基础组件",
+      componentList: [
         {
-          name: "StringField",
+          title: "StringField",
           schema: {
             type: "string",
           },
         },
         {
-          name: "NumberField",
+          title: "NumberField",
           schema: {
             type: "number",
           },
@@ -56,20 +55,20 @@ export default {
       ],
     },
     {
-      name: "是否组件",
-      components: [],
+      groupName: "是否组件",
+      componentList: [],
     },
     {
-      name: "单选组件",
-      components: [],
+      groupName: "单选组件",
+      componentList: [],
     },
     {
-      name: "文件上传",
-      components: [],
+      groupName: "文件上传",
+      componentList: [],
     },
     {
-      name: "时间日期",
-      components: [],
+      groupName: "时间日期",
+      componentList: [],
     },
   ],
 };

@@ -6,7 +6,7 @@ import {
   resolveComponent,
   h,
   computed,
-  watchEffect,
+  watch,
 } from "vue";
 import { useStyles } from "./style";
 import { ThemeProvider } from "../../../lib/index";
@@ -55,29 +55,80 @@ const ContentForm = defineComponent({
     });
 
     const widgetList = reactive([]);
+    const widgetObj = reactive({});
 
     const handleChange = (v: any) => {
       demo.data = v;
       demo.dataCode = toJson(v);
     };
-    watchEffect(() => {
-      console.log("props.list", props.list);
-    });
+    // 监听widgetList变化
+    watch(
+      () => widgetList,
+      (newVal) => {
+        console.log(newVal, "widgetList");
+      },
+      { deep: true },
+    );
 
+    // 监听layoutList变化
+    watch(
+      () => layoutList,
+      (newVal) => {
+        // console.log(newVal, "layoutList");
+      },
+      { deep: true },
+    );
+
+    const renderLayout = (element: any, classes: any) => {
+      console.log(element, "renderLayout");
+      // 布局组件
+      return (
+        <ActionComponentWrap>
+          <div class={classes.layout}>
+            <div class={classes.menuGroupName}>{element.name}</div>
+            <div class={classes.layoutContent}>
+              <div class={classes.layoutContentText}>拖入组件</div>
+              <vue-draggable
+                list={layoutList}
+                force-fallback={true}
+                group="list"
+                itemKey="name"
+                fallbackOnBody={true}
+              >
+                {{
+                  item: ({ element: innerEl }: { element: any }) => {
+                    return h(resolveComponent("ContentForm"), {
+                      list: innerEl.children,
+                    });
+                  },
+                }}
+              </vue-draggable>
+            </div>
+          </div>
+        </ActionComponentWrap>
+      );
+    };
+
+    const onEnd = () => {
+      console.log("拖拽完成了");
+    };
     return () => {
       const classes = classesRef.value;
       return (
         <div>
+          123
           <vue-draggable
-            list={props.list}
+            list={widgetList}
             force-fallback={true}
             group="list"
             itemKey="name"
             fallbackOnBody={true}
             chosenClass={classes.chosen}
+            end={onEnd}
           >
             {{
               item: ({ element }: { element: any }) => {
+                console.log(element, "布局组件");
                 if (element.type !== "layout") {
                   // 非布局组件
                   return (
@@ -104,35 +155,7 @@ const ContentForm = defineComponent({
                   );
                 } else {
                   // 布局组件
-                  return (
-                    <ActionComponentWrap>
-                      <div class={classes.layout}>
-                        <div class={classes.menuGroupName}>{element.name}</div>
-                        <div class={classes.layoutContent}>
-                          <div class={classes.layoutContentText}>拖入组件</div>
-                          <vue-draggable
-                            list={element.values}
-                            force-fallback={true}
-                            group="list"
-                            itemKey="name"
-                            fallbackOnBody={true}
-                          >
-                            {{
-                              item: ({
-                                element: innerEl,
-                              }: {
-                                element: any;
-                              }) => {
-                                return h(resolveComponent("ContentForm"), {
-                                  list: innerEl.values,
-                                });
-                              },
-                            }}
-                          </vue-draggable>
-                        </div>
-                      </div>
-                    </ActionComponentWrap>
-                  );
+                  return renderLayout(element, classes);
                 }
               },
             }}

@@ -9,7 +9,7 @@ import {
 import { useStyles } from "@/css/appStyle"; // 引入开源项目，用js写css
 import MonacoEditor from "./components/MonacoEditor";
 import demos from "./demos";
-import library from "./demos/library";
+import library from "./config/tools";
 import ContentForm from "./components/ContentForm";
 // import { Schema } from "../lib/types";
 // TODO: 在lib中export
@@ -91,6 +91,9 @@ export default defineComponent({
       componentsShow.value = !componentsShow.value;
     };
     const widgetList = reactive([]);
+    const cloneMenu = (original: any) => {
+      return { ...original, name: `${original.name} (clone)` };
+    };
 
     return () => {
       const classes = classesRef.value;
@@ -122,6 +125,7 @@ export default defineComponent({
                     sort={false}
                     itemKey="name"
                     class={classes.dragContent}
+                    clone={cloneMenu}
                   >
                     {{
                       item: ({ element }: { element: any }) => (
